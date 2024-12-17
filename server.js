@@ -2,6 +2,8 @@ const express = require("express");
 const dotenv = require("dotenv");
 // const logger = require("./middleware/logger");
 const morgan = require("morgan");
+// I was testing things, and noticed that the package must be imported BEFORE being used within the "./server.js" file, but when I placed this import after either the importing of const connectDB = require("./config/db"); or invoking connectDB(); it did NOT HAVE AN ERROR. I can only surmise that occurred due to our entire "./server.js" MAYBE running and existing before we dive into the "./config/db" file but I do not know at the moment
+const colors = require("colors");
 // we can import many files, pretty much all files as far as I'm aware, before our dotenv.config({ path: "./config/config.env "}); but you will want to invoke the associated methods/functions after the dotenv.config({ path: "./config/config.env "});, especially if you need to use them in the invoked functions, like connectDB();
 const connectDB = require("./config/db");
 
@@ -38,12 +40,15 @@ const PORT = process.env.PORT || 5000;
 // here we are placing our app.listen(...) into the const server variable so we can close the server when we get an unhandled rejection
 const server = app.listen(
   PORT,
-  console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`)
+  console.log(
+    `Server running in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow.bold
+      .inverse
+  )
 );
 
 // handle unhandled promise rejections, instead of having to go to "./config/db.js" and use try-catch blocks, we can easily handle those unhandled promise rejections with the below code and utilizing the "server" variable from app.listen(...)
 process.on(`unhandledRejection`, (err, promise) => {
-  console.log(`Error: ${err.message}`);
+  console.log(`Error: ${err.message}`.red);
   // close server & exit process
   server.close(() => process.exit(1));
 });
