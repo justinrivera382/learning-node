@@ -1,42 +1,20 @@
 const express = require("express");
 const dotenv = require("dotenv");
 
+// Route files
+const bootcamps = require("./routes/bootcamps");
+
 // Load env vars
+// keep in mind that this makes it "temporarily" available via a "global" path known on the server side called "process", like the window object in the client
 dotenv.config({ path: "./config/config.env" });
 
 // initialize app
 const app = express();
 
-// basic route template creation using EXPRESS
-// app.get("/", (req, res) => {
-//   res.status(200).json({ success: true, data: { id: 1 } });
-// });
-
-app.get("/api/v1/bootcamps", (req, res) => {
-  res.status(200).json({ success: true, msg: "Show all bootcamps" });
-});
-
-app.get("/api/v1/bootcamps/:id", (req, res) => {
-  res
-    .status(200)
-    .json({ success: true, msg: `Show bootcamp ${req.params.id}` });
-});
-
-app.post("/api/v1/bootcamps", (req, res) => {
-  res.status(200).json({ success: true, msg: "Create new bootcamp" });
-});
-
-app.put("/api/v1/bootcamps/:id", (req, res) => {
-  res
-    .status(200)
-    .json({ success: true, msg: `Updated bootcamp ${req.params.id}` });
-});
-
-app.delete("/api/v1/bootcamps/:id", (req, res) => {
-  res
-    .status(200)
-    .json({ success: true, msg: `Deleted bootcamp ${req.params.id}` });
-});
+// Mount routers that we get from const bootcamps
+// essentially the first parameter (in this case the route) will be automatically be included within the file of the second parameter (in this case our "router directory")
+// it's thanks to this line that we will no longer have to write "/api/v1/bootcamps" in any of our routes found in our ./routes/bootcamps.js file as that url path will be automatically be assigned by default in the file found in the second parameter
+app.use("/api/v1/bootcamps", bootcamps);
 
 const PORT = process.env.PORT || 5000;
 
