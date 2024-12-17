@@ -2,13 +2,19 @@ const express = require("express");
 const dotenv = require("dotenv");
 // const logger = require("./middleware/logger");
 const morgan = require("morgan");
-
-// Route files
-const bootcamps = require("./routes/bootcamps");
+// we can import many files, pretty much all files as far as I'm aware, before our dotenv.config({ path: "./config/config.env "}); but you will want to invoke the associated methods/functions after the dotenv.config({ path: "./config/config.env "});, especially if you need to use them in the invoked functions, like connectDB();
+const connectDB = require("./config/db");
 
 // Load env vars
 // keep in mind that this makes it "temporarily" available via a "global" path known on the server side called "process", like the window object in the client
 dotenv.config({ path: "./config/config.env" });
+
+// Connect to database
+// You will want to invoke the function BELOW the dotenv.config({ path: "./config/config.env "}); to allow the environment variables to actually exist. otherwise we will invoke connectDB(); to no EXISTING environment variables which will run us into errors
+connectDB();
+
+// Route files
+const bootcamps = require("./routes/bootcamps");
 
 // initialize app
 const app = express();
@@ -29,7 +35,15 @@ app.use("/api/v1/bootcamps", bootcamps);
 const PORT = process.env.PORT || 5000;
 
 // set up server
-app.listen(
+// here we are placing our app.listen(...) into the const server variable so we can close the server when we get an unhandled rejection
+const server = app.listen(
   PORT,
   console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`)
 );
+
+// handle unhandled promise rejections, instead of having to go to "./config/db.js" and use try-catch blocks, we can easily handle those unhandled promise rejections with the below code and utilizing the "server" variable from app.listen(...)
+process.on(`unhandledRejection`, (err, promise) => {
+  console.log(`Error: ${err.message}`);
+  // close server & exit process
+  server.close(() => process.exit(1));
+});
