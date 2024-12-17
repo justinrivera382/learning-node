@@ -1,0 +1,44 @@
+# Node.js dependencies
+node_modules/
+
+# Environment files
+config/config.env
+.env
+.env.local
+.env.*.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build output
+dist/
+build/
+coverage/
+
+# Dependency directories
+.bower_components/
+
+# IDE/editor settings
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS-specific files
+.DS_Store            # macOS
+Thumbs.db             # Windows
+
+# Temporary files
+*.log
+*.tmp
+*.bak
+*~
+
+# Optional: Ignore test coverage output
+coverage/
+
+# Optional: Ignore package lock files (if you prefer not to track these)
+# package-lock.json
+# yarn.lock
