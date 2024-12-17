@@ -1,5 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
+// const logger = require("./middleware/logger");
+const morgan = require("morgan");
 
 // Route files
 const bootcamps = require("./routes/bootcamps");
@@ -10,6 +12,14 @@ dotenv.config({ path: "./config/config.env" });
 
 // initialize app
 const app = express();
+
+// this is an EXAMPLE. Middleware doesn't just RUN, it needs to be invoked via app.use(logger)
+// app.use(logger);
+
+// Dev logging middleware
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"));
+}
 
 // Mount routers that we get from const bootcamps
 // essentially the first parameter (in this case the route) will be automatically be included within the file of the second parameter (in this case our "router directory")
