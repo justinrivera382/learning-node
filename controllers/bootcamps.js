@@ -3,6 +3,9 @@
 // we're going to export each method so we can bring it into the routes file
 // these are basically "middleware functions" so they will take in a (req, res, next), middleware are essentially functions that have access to the request-response cycle (req, res). therefore they run DURING the cycle. you can actually set req variables and all other things. you can create authentication middleware, error handling middleware, etc... you will learn more later about middleware
 
+// bringing in the Bootcamp model from "../models/Bootcamp" to call our methods (CRUD operations) in this file ("./controllers/bootcamp.js") onto the Bootcamp model
+const Bootcamp = require("../models/Bootcamp");
+
 // @desk        Get all bootcamps
 // @route       GET /api/v1/bootcamps
 // @access      Public -ERASE:no token required:ERASE-
@@ -26,8 +29,23 @@ exports.getBootcamp = (req, res, next) => {
 // @desk        Create new bootcamp
 // @route       POST /api/v1/bootcamps
 // @access      Private -ERASE:token required/sign in/etc...:ERASE-
-exports.createBootcamp = (req, res, next) => {
-  res.status(200).json({ success: true, msg: "Create new bootcamp" });
+exports.createBootcamp = async (req, res, next) => {
+  try {
+    // req.body is where the data is going to live when we send data in the body from the client
+    // IMPORTANT: to use req.body we have to use a piece of middleware known as the "body parser" within "./server.js". it will be app.use(express.json()). as you can tell it comes by default with Express
+    //   console.log(req.body);
+
+    // now that we've verified that we can use req.body thanks to the "body parser" we will now use our Bootcamp model and populate it with our req.body data
+    // if there is a field that exists within req.body that doesn't exist within our model then Mongoose will ignore it
+    const bootcamp = await Bootcamp.create(req.body);
+
+    res.status(201).json({ success: true, data: bootcamp });
+
+    // the code directly below was great but now that we have our Bootcamp model implemented and have our req.body able to send data to our Bootcamp model, this code is no longer needed
+    //   res.status(200).json({ success: true, msg: "Create new bootcamp" });
+  } catch (err) {
+    res.status(400).json({ success: false });
+  }
 };
 
 // @desk        Update bootcamp

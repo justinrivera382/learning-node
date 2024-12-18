@@ -21,6 +21,10 @@ const bootcamps = require("./routes/bootcamps");
 // initialize app
 const app = express();
 
+// Body parser
+// must be placed, probably, directly below where we "initialize app"
+app.use(express.json());
+
 // this is an EXAMPLE. Middleware doesn't just RUN, it needs to be invoked via app.use(logger)
 // app.use(logger);
 
