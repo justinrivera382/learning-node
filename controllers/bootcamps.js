@@ -80,7 +80,7 @@ exports.createBootcamp = async (req, res, next) => {
     // the code directly below was great but now that we have our Bootcamp model implemented and have our req.body able to send data to our Bootcamp model, this code is no longer needed
     //   res.status(200).json({ success: true, msg: "Create new bootcamp" });
   } catch (err) {
-    res.status(400).json({ success: false });
+    next(err);
   }
 };
 
