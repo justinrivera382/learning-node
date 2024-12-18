@@ -18,7 +18,9 @@ exports.getBootcamps = async (req, res, next) => {
 
     // that above was just an example of having access to "req.[attribute]" within our route
     const bootcamps = await Bootcamp.find();
-    res.status(200).json({ success: true, data: bootcamps });
+    res
+      .status(200)
+      .json({ success: true, count: bootcamps.length, data: bootcamps });
   } catch (err) {
     res.status(400).json({ success: false });
   }
@@ -67,17 +69,35 @@ exports.createBootcamp = async (req, res, next) => {
 // @desk        Update bootcamp
 // @route       PUT /api/v1/bootcamps/:id
 // @access      Private -ERASE:token required/sign in/etc...:ERASE-
-exports.updateBootcamp = (req, res, next) => {
-  res
-    .status(200)
-    .json({ success: true, msg: `Update bootcamp ${req.params.id}` });
+exports.updateBootcamp = async (req, res, next) => {
+  try {
+    const bootcamp = await Bootcamp.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!bootcamp) {
+      return res.status(400).json({ success: false });
+    }
+    res.status(200).json({ success: true, data: bootcamp });
+  } catch (err) {
+    res.status(400).json({ success: false });
+  }
 };
 
 // @desk        Delete bootcamp
 // @route       Delete /api/v1/bootcamps/:id
 // @access      Private -ERASE:token required/sign in/etc...:ERASE-
-exports.deleteBootcamp = (req, res, next) => {
-  res
-    .status(200)
-    .json({ success: true, msg: `Delete bootcamp ${req.params.id}` });
+exports.deleteBootcamp = async (req, res, next) => {
+  try {
+    const bootcamp = await Bootcamp.findByIdAndDelete(req.params.id);
+
+    if (!bootcamp) {
+      return res.status(400).json({ success: false });
+    }
+
+    res.status(200).json({ success: true, data: {} });
+  } catch (err) {
+    res.status(400).json({ success: false });
+  }
 };
