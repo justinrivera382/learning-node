@@ -9,21 +9,37 @@ const Bootcamp = require("../models/Bootcamp");
 // @desk        Get all bootcamps
 // @route       GET /api/v1/bootcamps
 // @access      Public -ERASE:no token required:ERASE-
-exports.getBootcamps = (req, res, next) => {
-  // because we create a variable/attribute within our "req" we have access to "hello" within our route, which we test in "./controllers/bootcamp.js"
-  //   res
-  //     .status(200)
-  //     .json({ success: true, msg: "Show all bootcamps", hello: req.hello });
+exports.getBootcamps = async (req, res, next) => {
+  try {
+    // because we create a variable/attribute within our "req" we have access to "hello" within our route, which we test in "./controllers/bootcamp.js"
+    //   res
+    //     .status(200)
+    //     .json({ success: true, msg: "Show all bootcamps", hello: req.hello });
 
-  // that above was just an example of having access to "req.[attribute]" within our route
-  res.status(200).json({ success: true, msg: "Show all bootcamps" });
+    // that above was just an example of having access to "req.[attribute]" within our route
+    const bootcamps = await Bootcamp.find();
+    res.status(200).json({ success: true, data: bootcamps });
+  } catch (err) {
+    res.status(400).json({ success: false });
+  }
 };
 
 // @desk        Get single bootcamp
 // @route       GET /api/v1/bootcamps/:id
 // @access      Public -ERASE:no token required:ERASE-
-exports.getBootcamp = (req, res, next) => {
-  res.status(200).json({ success: true, msg: `Get bootcamp ${req.params.id}` });
+exports.getBootcamp = async (req, res, next) => {
+  try {
+    const bootcamp = await Bootcamp.findById(req.params.id);
+
+    // this is needed because a CORRECTLY formatted :id of a resource that does NOT exist will still give a success 200 status. so this if statement will catch that and give a 400 status, which is the desired status to give the end user in this instance
+    if (!bootcamp) {
+      return res.status(400).json({ success: false });
+    }
+
+    res.status(200).json({ success: true, data: bootcamp });
+  } catch (err) {
+    res.status(400).json({ success: false });
+  }
 };
 
 // @desk        Create new bootcamp
