@@ -38,8 +38,10 @@ exports.getBootcamp = async (req, res, next) => {
     if (!bootcamp) {
       //   return res.status(400).json({ success: false });
       // now we use this code directly below to have a more custom error response which we get from "./utils/errorResponse.js", remember our constructor for ErrorResponse takes in a message and status code (message, statusCode) in that order just like how we see it below
+      // although we've just updated our "./middleware/error.js" to receive the "err" body caught and sent to it via the "catch" branch. it will NOT work here since we aren't catching and sending an "err" body here. so all we have currently is the standard new ErrorResponse(...) which is fine for now
+      // another thing to NOTE is that this Error update works only when we're grabbing for certain :id's. so something like "Get All" will not be affected since we're grabbing everything at once, for example
       return next(
-        new ErrorResponse(`Bootcamp not found with id of ${req.params.id}`, 404)
+        new ErrorResponse(`Resource not found with id of ${req.params.id}`, 404)
       );
     }
 
@@ -47,12 +49,16 @@ exports.getBootcamp = async (req, res, next) => {
   } catch (err) {
     // res.status(400).json({ success: false });
     // the standard result when doing next(err) is we will send html, but we don't want that we want to send JSON so now we're going to create an error.js in "./middleware/error.js"
-    // next(err);
+    // even though we created the next(new ErrorResponse...), it's just not DRY enough so the plan is to move the newErrorResponse... into the "./middleware/error.js" to clean up the code
+    // NOTE that the next(err); works here and with all other methods that require a specific :id. So "Get All" will not work with this current error update cause we're looking for, in this case, a "CastError".
+    // But it doesn't matter the specific error, our goal here is to catch any "err" (error) and pass it into the next(err); So if we have a different type, all we have to do is go to "./middleware/error.js" and add it with our if-statement
+    // NOTE that different Error Types have different properties and values that we have to test for. In the case of "CastError", it's an improper :id. Keep that in mind
+    next(err);
 
     // now we use this code directly below to have a more custom error response which we get from "./utils/errorResponse.js", remember our constructor for ErrorResponse takes in a message and status code (message, statusCode) in that order just like how we see it below
-    next(
-      new ErrorResponse(`Bootcamp not found with id of ${req.params.id}`, 404)
-    );
+    // next(
+    //   new ErrorResponse(`Bootcamp not found with id of ${req.params.id}`, 404)
+    // );
   }
 };
 
@@ -89,11 +95,15 @@ exports.updateBootcamp = async (req, res, next) => {
     });
 
     if (!bootcamp) {
-      return res.status(400).json({ success: false });
+      // return res.status(400).json({ success: false });
+      return next(
+        new ErrorResponse(`Resource not found with id of ${req.params.id}`, 404)
+      );
     }
     res.status(200).json({ success: true, data: bootcamp });
   } catch (err) {
-    res.status(400).json({ success: false });
+    next(err);
+    // res.status(400).json({ success: false });
   }
 };
 
@@ -105,11 +115,15 @@ exports.deleteBootcamp = async (req, res, next) => {
     const bootcamp = await Bootcamp.findByIdAndDelete(req.params.id);
 
     if (!bootcamp) {
-      return res.status(400).json({ success: false });
+      // return res.status(400).json({ success: false });
+      return next(
+        new ErrorResponse(`Resource not found with id of ${req.params.id}`, 404)
+      );
     }
 
     res.status(200).json({ success: true, data: {} });
   } catch (err) {
-    res.status(400).json({ success: false });
+    next(err);
+    // res.status(400).json({ success: false });
   }
 };
