@@ -3,6 +3,7 @@
 // we're going to export each method so we can bring it into the routes file
 // these are basically "middleware functions" so they will take in a (req, res, next), middleware are essentially functions that have access to the request-response cycle (req, res). therefore they run DURING the cycle. you can actually set req variables and all other things. you can create authentication middleware, error handling middleware, etc... you will learn more later about middleware
 
+const ErrorResponse = require("../utils/errorResponse");
 // bringing in the Bootcamp model from "../models/Bootcamp" to call our methods (CRUD operations) in this file ("./controllers/bootcamp.js") onto the Bootcamp model
 const Bootcamp = require("../models/Bootcamp");
 
@@ -35,14 +36,23 @@ exports.getBootcamp = async (req, res, next) => {
 
     // this is needed because a CORRECTLY formatted :id of a resource that does NOT exist will still give a success 200 status. so this if statement will catch that and give a 400 status, which is the desired status to give the end user in this instance
     if (!bootcamp) {
-      return res.status(400).json({ success: false });
+      //   return res.status(400).json({ success: false });
+      // now we use this code directly below to have a more custom error response which we get from "./utils/errorResponse.js", remember our constructor for ErrorResponse takes in a message and status code (message, statusCode) in that order just like how we see it below
+      return next(
+        new ErrorResponse(`Bootcamp not found with id of ${req.params.id}`, 404)
+      );
     }
 
     res.status(200).json({ success: true, data: bootcamp });
   } catch (err) {
     // res.status(400).json({ success: false });
     // the standard result when doing next(err) is we will send html, but we don't want that we want to send JSON so now we're going to create an error.js in "./middleware/error.js"
-    next(err);
+    // next(err);
+
+    // now we use this code directly below to have a more custom error response which we get from "./utils/errorResponse.js", remember our constructor for ErrorResponse takes in a message and status code (message, statusCode) in that order just like how we see it below
+    next(
+      new ErrorResponse(`Bootcamp not found with id of ${req.params.id}`, 404)
+    );
   }
 };
 
