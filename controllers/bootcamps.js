@@ -40,7 +40,9 @@ exports.getBootcamp = async (req, res, next) => {
 
     res.status(200).json({ success: true, data: bootcamp });
   } catch (err) {
-    res.status(400).json({ success: false });
+    // res.status(400).json({ success: false });
+    // the standard result when doing next(err) is we will send html, but we don't want that we want to send JSON so now we're going to create an error.js in "./middleware/error.js"
+    next(err);
   }
 };
 

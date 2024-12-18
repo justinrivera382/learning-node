@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const morgan = require("morgan");
 // I was testing things, and noticed that the package must be imported BEFORE being used within the "./server.js" file, but when I placed this import after either the importing of const connectDB = require("./config/db"); or invoking connectDB(); it did NOT HAVE AN ERROR. I can only surmise that occurred due to our entire "./server.js" MAYBE running and existing before we dive into the "./config/db" file but I do not know at the moment
 const colors = require("colors");
+const errorHandler = require("./middleware/error");
 // we can import many files, pretty much all files as far as I'm aware, before our dotenv.config({ path: "./config/config.env "}); but you will want to invoke the associated methods/functions after the dotenv.config({ path: "./config/config.env "});, especially if you need to use them in the invoked functions, like connectDB();
 const connectDB = require("./config/db");
 
@@ -29,6 +30,7 @@ app.use(express.json());
 // app.use(logger);
 
 // Dev logging middleware
+// NOTE: middleware is run in order so if it depends on anything our middleware must be placed after its dependency
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
@@ -37,6 +39,10 @@ if (process.env.NODE_ENV === "development") {
 // essentially the first parameter (in this case the route) will be automatically be included within the file of the second parameter (in this case our "router directory")
 // it's thanks to this line that we will no longer have to write "/api/v1/bootcamps" in any of our routes found in our ./routes/bootcamps.js file as that url path will be automatically be assigned by default in the file found in the second parameter
 app.use("/api/v1/bootcamps", bootcamps);
+
+// Error Middleware
+// NOTE: middleware is run in order so if it depends on anything our middleware must be placed after its dependency, that's why errorHandler is placed after "Mount routers" that we got from const bootcamps aka app.use("/api/v1/bootcamps", bootcamps)
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
