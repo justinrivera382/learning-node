@@ -5,6 +5,7 @@
 
 const ErrorResponse = require("../utils/errorResponse");
 const asyncHandler = require("../middleware/async");
+const geocoder = require("../utils/geocoder");
 // bringing in the Bootcamp model from "../models/Bootcamp" to call our methods (CRUD operations) in this file ("./controllers/bootcamp.js") onto the Bootcamp model
 const Bootcamp = require("../models/Bootcamp");
 
@@ -127,4 +128,34 @@ exports.deleteBootcamp = asyncHandler(async (req, res, next) => {
   // next(err);
   // res.status(400).json({ success: false });
   // }
+});
+
+// @desk        Get bootcamps within a radius
+// @route       GET /api/v1/bootcamps/radius/:zipcode/:distance
+// @access      Private -ERASE:token required/sign in/etc...:ERASE-
+exports.getBootcampsInRadius = asyncHandler(async (req, res, next) => {
+  const { zipcode, distance } = req.params;
+
+  // Get latitude/longitude from geocoder
+  const loc = await geocoder.geocode(zipcode);
+  const lat = loc[0].latitude;
+  const lng = loc[0].longitude;
+
+  // calculate the radius using radians
+  // Divide distance by radius of Earth
+  // Earth Radius = 3,963 miles || 6,378 kilometers
+  const radius = distance / 3963;
+
+  // NOTE that the ".find()" method exists on the Bootcamp model but not the Bootcamp schema. So we can't find ".find()" in the Bootcamp schema only the Bootcamp model aka the instance of the Bootcamp schema
+  const bootcamps = await Bootcamp.find({
+    location: { $geoWithin: { $centerSphere: [[lng, lat], radius] } },
+  });
+
+  res.status(200).json({
+    success: true,
+    count: bootcamps.length,
+    data: bootcamps,
+  });
+
+  // now we have to create routes because we need a way to access ".getBootcampsInRadius"
 });
