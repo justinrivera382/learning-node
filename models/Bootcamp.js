@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const slugify = require("slugify");
+const geocoder = require("../utils/geocoder");
 
 const BootcampSchema = new mongoose.Schema({
   name: {
@@ -111,6 +112,32 @@ BootcampSchema.pre("save", function (next) {
   // slugifying the name created by our BootcampSchema. remember we are "pre" on it so our middleware will receive the entire body of data (in this case we want to grab specifically the name) => slugify receives the body of data (we want the name here) to then slugify will do something to the name, in this case "slugify" it => and then save it onto our BootcampSchema. which is great because it allows us to manipulate/use data for any other of our fields created in our BootcampSchema
   this.slug = slugify(this.name, { lower: true });
   // next() is always important in middleware, it's used to know when we need to move on to the next middleware/functionality
+  next();
+});
+
+// Geocode & create location field
+// note that the ".geocode" method is asynchronous and that's why we use the "async/await" syntax
+BootcampSchema.pre("save", async function (next) {
+  // REMEMBER, we can access any of the fields in our BootcampSchema using the "this" keyword. And we must use the standard function syntax for the "this" keyword to work as we expect
+  const loc = await geocoder.geocode(this.address);
+  // this.location must have type of "Point" because they're required in our BootcampSchema
+  // this.location must have coordinates because they're required in our BootcampSchema
+  // Keep in mind that the structure of this.location is the way that it is because if we look at the "Node Geocoder" docs on Github, the input we receive from "Node Geocoder" is an array of objects. And in this case we're just grabbing the first object in the array and all of its properties (formattedAddress, street: streetName, ..., country)
+  // Quick note, had to use country instead of countryCode because the API GeoCodio doesn't seem to have a countryCode property
+  this.location = {
+    type: "Point",
+    coordinates: [loc[0].longitude, loc[0].latitude],
+    formattedAddress: loc[0].formattedAddress,
+    street: loc[0].streetName,
+    city: loc[0].city,
+    state: loc[0].stateCode,
+    zipcode: loc[0].zipcode,
+    country: loc[0].country,
+  };
+
+  // Do not save address in database, the address itself doesn't need to be saved since we saved all the location data that we created for our BootcampSchema into our "location" field
+  this.address = undefined;
+
   next();
 });
 
