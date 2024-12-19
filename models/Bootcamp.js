@@ -124,13 +124,14 @@ BootcampSchema.pre("save", async function (next) {
   // this.location must have coordinates because they're required in our BootcampSchema
   // Keep in mind that the structure of this.location is the way that it is because if we look at the "Node Geocoder" docs on Github, the input we receive from "Node Geocoder" is an array of objects. And in this case we're just grabbing the first object in the array and all of its properties (formattedAddress, street: streetName, ..., country)
   // Quick note, had to use country instead of countryCode because the API GeoCodio doesn't seem to have a countryCode property
+  // Update: turns out there is also no "stateCode" property, so we have to use "state" instead
   this.location = {
     type: "Point",
     coordinates: [loc[0].longitude, loc[0].latitude],
     formattedAddress: loc[0].formattedAddress,
     street: loc[0].streetName,
     city: loc[0].city,
-    state: loc[0].stateCode,
+    state: loc[0].state,
     zipcode: loc[0].zipcode,
     country: loc[0].country,
   };
