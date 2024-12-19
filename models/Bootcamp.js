@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const slugify = require("slugify");
 
 const BootcampSchema = new mongoose.Schema({
   name: {
@@ -97,6 +98,20 @@ const BootcampSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+});
+
+// Create bootcamp slug from the name
+// we use "pre" because we want this to occur before the "save"
+// we use a normal function not an arrow function because of the scoping of the "this" keyword
+// This is IMPORTANT because if we have the slug available to pull from a frontend like REACT, it makes it more user friendly for SEO purposes. This is why the "slugify api" is so great
+BootcampSchema.pre("save", function (next) {
+  // the code console.log("Slugify ran", this.name) was to "prove" that we can have access to our "document data" in our mongodb database that exists thanks to the schema we created in "./models/Bootcamp.js"
+  // console.log("Slugify ran", this.name);
+
+  // slugifying the name created by our BootcampSchema. remember we are "pre" on it so our middleware will receive the entire body of data (in this case we want to grab specifically the name) => slugify receives the body of data (we want the name here) to then slugify will do something to the name, in this case "slugify" it => and then save it onto our BootcampSchema. which is great because it allows us to manipulate/use data for any other of our fields created in our BootcampSchema
+  this.slug = slugify(this.name, { lower: true });
+  // next() is always important in middleware, it's used to know when we need to move on to the next middleware/functionality
+  next();
 });
 
 module.exports = mongoose.model("Bootcamp", BootcampSchema);
