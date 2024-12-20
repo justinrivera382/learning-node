@@ -25,23 +25,61 @@ exports.getBootcamps = asyncHandler(async (req, res, next) => {
   // that above was just an example of having access to "req.[attribute]" within our route
 
   // Did this to test what the query would look like when we take it in
-  console.log(req.query);
+  // console.log(req.query);
   let query;
+
+  // copy req.query
+  // The reason why we copy "req.query" into "reqQuery" is so we can use reqQuery to check specifically for the regexPattern we set up. And then we can use the "req.query" to check for things like the select, sort, etc... in an if-statement
+  // I was originally confused but now I get it thanks to console logging everything and checking
+  const reqQuery = { ...req.query };
+
+  // console.log(reqQuery);
+  // Fields to exclude of words we DO NOT want to match
+  const removeFields = ["select", "sort"];
+
+  // Loop over removeFields and delete them from reqQuery
+  removeFields.forEach((param) => delete reqQuery[param]);
+
+  // console.log("after");
+  // console.log(reqQuery);
 
   // the /g means "global", for when you want to find all matches (not just the first)
   const regexPattern = /\b(gt|gte|lt|lte|in)\b/g;
 
   // we need to stringify the "req.query" to do the pattern matching when we're looking for "greater than/equal to", "less than/equal to", and "in" when looking into an array
-  let queryStr = JSON.stringify(req.query);
+  // create query string
+  let queryStr = JSON.stringify(reqQuery);
 
   // this is where the magic occurs, in the first parameter we are using the "regexPattern" to find a specific pattern and once the first pattern is found we then use the second parameter to take the discovered "regexPattern" and append "$" to the start. this is needed because it's the specific pattern syntax required for MONGODB
   // reference docs: https://www.mongodb.com/docs/manual/reference/operator/query/gt/
   // using the reference docs, you'll see the specific pattern I'm referencing is the object { field: { $gt: value } } where you can see "$gt" for the key and is the pattern we're trying to create here
+  // Create operators ($gt, $gte, etc...)
   queryStr = queryStr.replace(regexPattern, (match) => `$${match}`);
 
+  // Finding resource
+  // this is where we start "building our query", in the if-statements with req.query.select, req.query.sort, etc... they will continue building the rest of the query
   query = Bootcamp.find(JSON.parse(queryStr));
   // console.log(queryStr);
 
+  // console.log("checking req.query");
+  // console.log(req.query);
+  // Select Fields
+  if (req.query.select) {
+    const fields = req.query.select.split(",").join(" ");
+    // console.log(fields);
+    query = query.select(fields);
+  }
+
+  // Sort
+  if (req.query.sort) {
+    const sortBy = req.query.sort.split(",").join(" ");
+    // console.log(sortBy)
+    query = query.sort(sortBy);
+  } else {
+    query = query.sort("-createdAt");
+  }
+
+  // Executing query
   const bootcamps = await query;
   res
     .status(200)
