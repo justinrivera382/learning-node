@@ -58,7 +58,9 @@ exports.getBootcamps = asyncHandler(async (req, res, next) => {
 
   // Finding resource
   // this is where we start "building our query", in the if-statements with req.query.select, req.query.sort, etc... they will continue building the rest of the query
-  query = Bootcamp.find(JSON.parse(queryStr));
+  // we are going to "reverse populate"
+  // Note if you wanted to "limit" the data in the, this case, "virtual courses" field. all you would need to do is .populate({ path: "courses", select: "title description etc..."})
+  query = Bootcamp.find(JSON.parse(queryStr)).populate("courses");
   // console.log(queryStr);
 
   // console.log("checking req.query");
@@ -203,7 +205,9 @@ exports.updateBootcamp = asyncHandler(async (req, res, next) => {
 // @access      Private -ERASE:token required/sign in/etc...:ERASE-
 exports.deleteBootcamp = asyncHandler(async (req, res, next) => {
   // try {
-  const bootcamp = await Bootcamp.findByIdAndDelete(req.params.id);
+
+  // to use the middleware BootcampSchema.pre("deleteOne", ...) found in "./models/Bootcamp.js" you can NOT use "findByIdAndDelete(req.params.id)" so we changed it to ".findById(req.params.id)" which gets the bootcamp and checks if it exists
+  const bootcamp = await Bootcamp.findById(req.params.id);
 
   if (!bootcamp) {
     // return res.status(400).json({ success: false });
@@ -211,6 +215,9 @@ exports.deleteBootcamp = asyncHandler(async (req, res, next) => {
       new ErrorResponse(`Resource not found with id of ${req.params.id}`, 404)
     );
   }
+
+  // this is where we delete the actual bootcamp, the ".deleteOne()" triggers the middleware from "./models/Bootcamp.js"
+  await bootcamp.deleteOne();
 
   res.status(200).json({ success: true, data: {} });
   // } catch (err) {
