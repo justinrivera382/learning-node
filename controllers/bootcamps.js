@@ -35,7 +35,7 @@ exports.getBootcamps = asyncHandler(async (req, res, next) => {
 
   // console.log(reqQuery);
   // Fields to exclude of words we DO NOT want to match
-  const removeFields = ["select", "sort"];
+  const removeFields = ["select", "sort", "page", "limit"];
 
   // Loop over removeFields and delete them from reqQuery
   removeFields.forEach((param) => delete reqQuery[param]);
@@ -79,11 +79,43 @@ exports.getBootcamps = asyncHandler(async (req, res, next) => {
     query = query.sort("-createdAt");
   }
 
+  // Pagination
+  // remember that when we receive data the keys aren't strings and the values always come in as numbers. so if you need to do anything with them as a certain other data type remember to switch them. like we do with parseInt() here
+  // parseInt(string, radix). think of it like google translate. the first parameter is "hola" and the second parameter is "spanish" and it will interpret it as such. so with parseInt() it's like putting 69 and 10 (meaning decimal base 10, aka our standard counting numbers people use which works here because we want to use these number as "page numbers" for users to click on)
+  const page = parseInt(req.query.page, 10) || 1;
+  const limit = parseInt(req.query.limit, 10) || 25;
+  const startIndex = (page - 1) * limit;
+  const endIndex = page * limit;
+  const total = await Bootcamp.countDocuments();
+
+  query = query.skip(startIndex).limit(limit);
+
   // Executing query
   const bootcamps = await query;
-  res
-    .status(200)
-    .json({ success: true, count: bootcamps.length, data: bootcamps });
+
+  // Pagination result
+  const pagination = {};
+
+  if (endIndex < total) {
+    pagination.next = {
+      page: page + 1,
+      limit,
+    };
+  }
+
+  if (startIndex > 0) {
+    pagination.prev = {
+      page: page - 1,
+      limit,
+    };
+  }
+
+  res.status(200).json({
+    success: true,
+    count: bootcamps.length,
+    pagination,
+    data: bootcamps,
+  });
 });
 
 // @desk        Get single bootcamp
