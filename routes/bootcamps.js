@@ -10,10 +10,17 @@ const {
   getBootcampsInRadius,
 } = require("../controllers/bootcamps");
 
+// Include other resource routers
+const courseRouter = require("./courses");
+
 // initialize router and we will no longer have access to app here and instead we will be using "router"
 // the entire point of the express.Router() is to give us the ability to "modularize" and maintain our url paths more easily
 // you should see when we go use the "user signup" route where we will be authenticating users with a different route in, probably, a different file called "authentication.js" or something like that
 const router = express.Router();
+
+// Re-route into other resource routers
+// from what I'm seeing, we're "building" up the URL so the "full" URL for router.use("/:bootcampId/courses", courseRouter) would be "/api/v1/bootcamps/:bootcampId/courses" which is then passed into the courseRouter found in "./routes/courses.js"
+router.use("/:bootcampId/courses", courseRouter);
 
 // in the "./server.js" we have app.use("/api/v1/bootcamps") meaning we don't have to write "/api/v1/bootcamps" in our routes here as they're already included in the "./server.js" file
 // so now our "full" route in this specific router.route(...) is "/api/v1/bootcamps/radius/:zipcode/:distance"

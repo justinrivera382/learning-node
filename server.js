@@ -18,6 +18,7 @@ connectDB();
 
 // Route files
 const bootcamps = require("./routes/bootcamps");
+const courses = require("./routes/courses");
 
 // initialize app
 const app = express();
@@ -39,6 +40,7 @@ if (process.env.NODE_ENV === "development") {
 // essentially the first parameter (in this case the route) will be automatically be included within the file of the second parameter (in this case our "router directory")
 // it's thanks to this line that we will no longer have to write "/api/v1/bootcamps" in any of our routes found in our ./routes/bootcamps.js file as that url path will be automatically be assigned by default in the file found in the second parameter
 app.use("/api/v1/bootcamps", bootcamps);
+app.use("/api/v1/courses", courses);
 
 // Error Middleware
 // NOTE: middleware is run in order so if it depends on anything our middleware must be placed after its dependency, that's why errorHandler is placed after "Mount routers" that we got from const bootcamps aka app.use("/api/v1/bootcamps", bootcamps)
