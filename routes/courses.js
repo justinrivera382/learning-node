@@ -1,6 +1,12 @@
 const express = require("express");
 
-const { getCourses, getCourse, addCourse } = require("../controllers/courses");
+const {
+  getCourses,
+  getCourse,
+  addCourse,
+  updateCourse,
+  deleteCourse,
+} = require("../controllers/courses");
 
 // the params must be merged for us to use the "re-route" we did from "./routes/bootcamps.js"
 const router = express.Router({ mergeParams: true });
@@ -11,6 +17,6 @@ const router = express.Router({ mergeParams: true });
 // after re-looking I've found that the specific route at the ".get(getCourses)" is NOT just a single route, but both "/api/v1/courses" AND "/api/v1/bootcamps/:bootcampId/courses" so maybe that's how it's capable of being connected to the same "root" route
 // all of this is kind of confusing but by building more of this it should come more easily
 router.route("/").get(getCourses).post(addCourse);
-router.route("/:id").get(getCourse);
+router.route("/:id").get(getCourse).put(updateCourse).delete(deleteCourse);
 
 module.exports = router;
