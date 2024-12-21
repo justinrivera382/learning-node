@@ -32,7 +32,8 @@ const importData = async () => {
   try {
     // we don't need to respond with anything, the goal is to just import the data into the database, therefore we don't need to save it into a variable
     await Bootcamp.create(bootcamps);
-    await Course.create(courses);
+    // had to comment out temporarily for "Calculating Average Cost With Aggregate" so we could test out the aggregate functionality that we created
+    // await Course.create(courses);
 
     console.log("Data Imported...".green.inverse);
     process.exit();
