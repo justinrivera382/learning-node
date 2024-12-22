@@ -51,7 +51,7 @@ const CourseSchema = new mongoose.Schema({
 // remember this is only the definition, we gotta invoke it to run it so we'll invoke it in the getAverageCost() after save/before remove
 // NOTE: although this functionality DOES WORK, it only works when you upload a course but when you delete a course it DOES NOT CHANGE the value. Something to keep in mind moving forward. Although this functionality is "finished" and "works" it is NOT "complete" so currently avoid re-creating this kind of functionality in your own applications
 CourseSchema.statics.getAverageCost = async function (bootcampId) {
-  console.log("Calculating average cost...".blue);
+  // console.log("Calculating average cost...".blue);
 
   // this is known as a pipeline and there are different steps in the pipeline
   const obj = await this.aggregate([

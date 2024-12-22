@@ -8,6 +8,7 @@ const {
   updateBootcamp,
   deleteBootcamp,
   getBootcampsInRadius,
+  bootcampPhotoUpload,
 } = require("../controllers/bootcamps");
 
 // Include other resource routers
@@ -20,6 +21,7 @@ const router = express.Router();
 
 // Re-route into other resource routers
 // from what I'm seeing, we're "building" up the URL so the "full" URL for router.use("/:bootcampId/courses", courseRouter) would be "/api/v1/bootcamps/:bootcampId/courses" which is then passed into the courseRouter found in "./routes/courses.js"
+// when having to add a course, we have to "attach" it to something. a course can NOT be standalone. so we have to
 router.use("/:bootcampId/courses", courseRouter);
 
 // in the "./server.js" we have app.use("/api/v1/bootcamps") meaning we don't have to write "/api/v1/bootcamps" in our routes here as they're already included in the "./server.js" file
@@ -28,6 +30,8 @@ router.route("/radius/:zipcode/:distance").get(getBootcampsInRadius);
 
 // here since our getBootcamps and createBootcamp found in our "./controllers/bootcamp.js" file shares the same base url path, in this case "/api/v1/bootcamps" which we got from our "./server.js" file from [app.use("/api/v1/bootcamps", bootcamps)] which gets pushed into "./controllers/bootcamps.js"
 router.route("/").get(getBootcamps).post(createBootcamp);
+
+router.route("/:id/photo").put(bootcampPhotoUpload);
 
 // since our getBootcamp, updateBootcamp, and deleteBootcamp require the :id, we have to route them like this and, just like stated earlier, we get the rest of the base url path, "/api/v1/bootcamps" from our "./server.js" file from [app.use("/api/v1/bootcamps", bootcamps)] which gets pushed into "./controllers/bootcamps.js"
 router
