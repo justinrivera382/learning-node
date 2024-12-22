@@ -11,6 +11,9 @@ const {
   bootcampPhotoUpload,
 } = require("../controllers/bootcamps");
 
+const Bootcamp = require("../models/Bootcamp");
+const advancedResults = require("../middleware/advancedResults");
+
 // Include other resource routers
 const courseRouter = require("./courses");
 
@@ -29,7 +32,10 @@ router.use("/:bootcampId/courses", courseRouter);
 router.route("/radius/:zipcode/:distance").get(getBootcampsInRadius);
 
 // here since our getBootcamps and createBootcamp found in our "./controllers/bootcamp.js" file shares the same base url path, in this case "/api/v1/bootcamps" which we got from our "./server.js" file from [app.use("/api/v1/bootcamps", bootcamps)] which gets pushed into "./controllers/bootcamps.js"
-router.route("/").get(getBootcamps).post(createBootcamp);
+router
+  .route("/")
+  .get(advancedResults(Bootcamp, "courses"), getBootcamps)
+  .post(createBootcamp);
 
 router.route("/:id/photo").put(bootcampPhotoUpload);
 

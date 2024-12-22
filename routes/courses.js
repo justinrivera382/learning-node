@@ -8,6 +8,9 @@ const {
   deleteCourse,
 } = require("../controllers/courses");
 
+const Course = require("../models/Course");
+const advancedResults = require("../middleware/advancedResults");
+
 // the params must be merged for us to use the "re-route" we did from "./routes/bootcamps.js"
 const router = express.Router({ mergeParams: true });
 
@@ -16,7 +19,17 @@ const router = express.Router({ mergeParams: true });
 // what does confuse me is how both the ".get(getCourses)" and ".post(addCourse)" use the same route in this file. But that possibly could be attributed to using "two default" routes that the program might branch and do its own if-statement until it finds a valid "root" route? that's all I can surmise from all the information that I've looked back on.
 // after re-looking I've found that the specific route at the ".get(getCourses)" is NOT just a single route, but both "/api/v1/courses" AND "/api/v1/bootcamps/:bootcampId/courses" so maybe that's how it's capable of being connected to the same "root" route
 // all of this is kind of confusing but by building more of this it should come more easily
-router.route("/").get(getCourses).post(addCourse);
+// NOTE: in the "getCourses" we got the object {path: "bootcamp", select: "name description"} from "./controllers/courses.js" from the, surprise surprise, "getCourses" on the section that has ".populate({path: "bootcamp", select: "name description"})"
+router
+  .route("/")
+  .get(
+    advancedResults(Course, {
+      path: "bootcamp",
+      select: "name description",
+    }),
+    getCourses
+  )
+  .post(addCourse);
 router.route("/:id").get(getCourse).put(updateCourse).delete(deleteCourse);
 
 module.exports = router;

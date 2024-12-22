@@ -28,98 +28,10 @@ exports.getBootcamps = asyncHandler(async (req, res, next) => {
 
   // Did this to test what the query would look like when we take it in
   // console.log(req.query);
-  let query;
 
-  // copy req.query
-  // The reason why we copy "req.query" into "reqQuery" is so we can use reqQuery to check specifically for the regexPattern we set up. And then we can use the "req.query" to check for things like the select, sort, etc... in an if-statement
-  // I was originally confused but now I get it thanks to console logging everything and checking
-  const reqQuery = { ...req.query };
-
-  // console.log(reqQuery);
-  // Fields to exclude of words we DO NOT want to match
-  const removeFields = ["select", "sort", "page", "limit"];
-
-  // Loop over removeFields and delete them from reqQuery
-  removeFields.forEach((param) => delete reqQuery[param]);
-
-  // console.log("after");
-  // console.log(reqQuery);
-
-  // the /g means "global", for when you want to find all matches (not just the first)
-  const regexPattern = /\b(gt|gte|lt|lte|in)\b/g;
-
-  // we need to stringify the "req.query" to do the pattern matching when we're looking for "greater than/equal to", "less than/equal to", and "in" when looking into an array
-  // create query string
-  let queryStr = JSON.stringify(reqQuery);
-
-  // this is where the magic occurs, in the first parameter we are using the "regexPattern" to find a specific pattern and once the first pattern is found we then use the second parameter to take the discovered "regexPattern" and append "$" to the start. this is needed because it's the specific pattern syntax required for MONGODB
-  // reference docs: https://www.mongodb.com/docs/manual/reference/operator/query/gt/
-  // using the reference docs, you'll see the specific pattern I'm referencing is the object { field: { $gt: value } } where you can see "$gt" for the key and is the pattern we're trying to create here
-  // Create operators ($gt, $gte, etc...)
-  queryStr = queryStr.replace(regexPattern, (match) => `$${match}`);
-
-  // Finding resource
-  // this is where we start "building our query", in the if-statements with req.query.select, req.query.sort, etc... they will continue building the rest of the query
-  // we are going to "reverse populate"
-  // Note if you wanted to "limit" the data in the, this case, "virtual courses" field. all you would need to do is .populate({ path: "courses", select: "title description etc..."})
-  query = Bootcamp.find(JSON.parse(queryStr)).populate("courses");
-  // console.log(queryStr);
-
-  // console.log("checking req.query");
-  // console.log(req.query);
-  // Select Fields
-  if (req.query.select) {
-    const fields = req.query.select.split(",").join(" ");
-    // console.log(fields);
-    query = query.select(fields);
-  }
-
-  // Sort
-  if (req.query.sort) {
-    const sortBy = req.query.sort.split(",").join(" ");
-    // console.log(sortBy)
-    query = query.sort(sortBy);
-  } else {
-    query = query.sort("-createdAt");
-  }
-
-  // Pagination
-  // remember that when we receive data the keys aren't strings and the values always come in as numbers. so if you need to do anything with them as a certain other data type remember to switch them. like we do with parseInt() here
-  // parseInt(string, radix). think of it like google translate. the first parameter is "hola" and the second parameter is "spanish" and it will interpret it as such. so with parseInt() it's like putting 69 and 10 (meaning decimal base 10, aka our standard counting numbers people use which works here because we want to use these number as "page numbers" for users to click on)
-  const page = parseInt(req.query.page, 10) || 1;
-  const limit = parseInt(req.query.limit, 10) || 25;
-  const startIndex = (page - 1) * limit;
-  const endIndex = page * limit;
-  const total = await Bootcamp.countDocuments();
-
-  query = query.skip(startIndex).limit(limit);
-
-  // Executing query
-  const bootcamps = await query;
-
-  // Pagination result
-  const pagination = {};
-
-  if (endIndex < total) {
-    pagination.next = {
-      page: page + 1,
-      limit,
-    };
-  }
-
-  if (startIndex > 0) {
-    pagination.prev = {
-      page: page - 1,
-      limit,
-    };
-  }
-
-  res.status(200).json({
-    success: true,
-    count: bootcamps.length,
-    pagination,
-    data: bootcamps,
-  });
+  // we have access to res.advancedResults because the ".getBootcamps" in our "./controllers/bootcamp.js" is being used in the "./routes/bootcamp.js" route which is using the "./middleware/advancedResults.js" middleware
+  // in short: route is called (if invokes any middleware, it must complete before moving on) -> looks at controller to see what to do (if invokes any middleware, it must complete before moving on) -> now you get the final result
+  res.status(200).json(res.advancedResults);
 });
 
 // @desk        Get single bootcamp
