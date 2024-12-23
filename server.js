@@ -8,6 +8,7 @@ const morgan = require("morgan");
 // I was testing things, and noticed that the package must be imported BEFORE being used within the "./server.js" file, but when I placed this import after either the importing of const connectDB = require("./config/db"); or invoking connectDB(); it did NOT HAVE AN ERROR. I can only surmise that occurred due to our entire "./server.js" MAYBE running and existing before we dive into the "./config/db" file but I do not know at the moment
 const colors = require("colors");
 const fileupload = require("express-fileupload");
+const cookieParser = require("cookie-parser");
 const errorHandler = require("./middleware/error");
 // we can import many files, pretty much all files as far as I'm aware, before our dotenv.config({ path: "./config/config.env "}); but you will want to invoke the associated methods/functions after the dotenv.config({ path: "./config/config.env "});, especially if you need to use them in the invoked functions, like connectDB();
 const connectDB = require("./config/db");
@@ -31,6 +32,9 @@ const app = express();
 // Body parser
 // must be placed, probably, directly below where we "initialize app"
 app.use(express.json());
+
+// Cookie parser
+app.use(cookieParser());
 
 // this is an EXAMPLE. Middleware doesn't just RUN, it needs to be invoked via app.use(logger)
 // app.use(logger);
