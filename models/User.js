@@ -54,4 +54,10 @@ UserSchema.methods.getSignedJwtToken = function () {
   });
 };
 
+// Match user entered password to hashed password in database
+// NOTE ".matchPassword()" is NOT a static method, therefore it is called on the actual user instance meaning it has access to the actual hashed password on the user instance
+UserSchema.methods.matchPassword = async function (loginPassword) {
+  return await bcrypt.compare(loginPassword, this.password);
+};
+
 module.exports = mongoose.model("User", UserSchema);
