@@ -23,7 +23,8 @@ const courseRouter = require("./courses");
 const router = express.Router();
 
 // protecting our routes by checking their credentials, essentially creating that "private" routes we talked about in "./controllers" directory
-const { protect } = require("../middleware/auth");
+// now we brought in "authorize" so only accounts with certain roles can access certain routes
+const { protect, authorize } = require("../middleware/auth");
 
 // Re-route into other resource routers
 // from what I'm seeing, we're "building" up the URL so the "full" URL for router.use("/:bootcampId/courses", courseRouter) would be "/api/v1/bootcamps/:bootcampId/courses" which is then passed into the courseRouter found in "./routes/courses.js"
@@ -38,15 +39,18 @@ router.route("/radius/:zipcode/:distance").get(getBootcampsInRadius);
 router
   .route("/")
   .get(advancedResults(Bootcamp, "courses"), getBootcamps)
-  .post(protect, createBootcamp);
+  .post(protect, authorize("publisher", "admin"), createBootcamp);
 
-router.route("/:id/photo").put(protect, bootcampPhotoUpload);
+// ORDER MATTERS, protect is what "sets" the account role which authorize() uses to cross check the roles given to it. If we place "protect" after "authorize(...)" we will run into ERRORS
+router
+  .route("/:id/photo")
+  .put(protect, authorize("publisher", "admin"), bootcampPhotoUpload);
 
 // since our getBootcamp, updateBootcamp, and deleteBootcamp require the :id, we have to route them like this and, just like stated earlier, we get the rest of the base url path, "/api/v1/bootcamps" from our "./server.js" file from [app.use("/api/v1/bootcamps", bootcamps)] which gets pushed into "./controllers/bootcamps.js"
 router
   .route("/:id")
   .get(getBootcamp)
-  .put(protect, updateBootcamp)
-  .delete(protect, deleteBootcamp);
+  .put(protect, authorize("publisher", "admin"), updateBootcamp)
+  .delete(protect, authorize("publisher", "admin"), deleteBootcamp);
 
 module.exports = router;

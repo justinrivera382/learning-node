@@ -15,7 +15,7 @@ const advancedResults = require("../middleware/advancedResults");
 const router = express.Router({ mergeParams: true });
 
 // protecting our routes by checking their credentials, essentially creating that "private" routes we talked about in "./controllers" directory
-const { protect } = require("../middleware/auth");
+const { protect, authorize } = require("../middleware/auth");
 
 // I'm still kinda confused, all I can understand so far is that, probably, all POST requests are routed via a root route "/", maybe?
 // if so then it's just a pattern but to be fair we did have to "re-route" the "/api/v1/bootcamps" from "./server.js" to "./routes/bootcamps.js" where we build it further using "/:bootcampId/courses" turning it into a longer route of "/api/v1/bootcamps/:bootcampId/courses" which then gets passed into the current file "./routes/courses.js"
@@ -32,11 +32,11 @@ router
     }),
     getCourses
   )
-  .post(protect, addCourse);
+  .post(protect, authorize("publisher", "admin"), addCourse);
 router
   .route("/:id")
   .get(getCourse)
-  .put(protect, updateCourse)
-  .delete(protect, deleteCourse);
+  .put(protect, authorize("publisher", "admin"), updateCourse)
+  .delete(protect, authorize("publisher", "admin"), deleteCourse);
 
 module.exports = router;
