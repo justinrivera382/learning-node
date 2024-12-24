@@ -37,6 +37,12 @@ const CourseSchema = new mongoose.Schema({
     ref: "Bootcamp",
     required: true,
   },
+  // Course is now attached to a User
+  user: {
+    type: mongoose.Schema.ObjectId,
+    ref: "User",
+    required: true,
+  },
 });
 
 // NOTE: when you define a "static" method you can invoke it directly on the model itself. for example: ModelName.staticMethodBeingInvokedDirectlyOnModel()
