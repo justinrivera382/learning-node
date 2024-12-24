@@ -78,6 +78,23 @@ exports.createBootcamp = asyncHandler(async (req, res, next) => {
   // IMPORTANT: to use req.body we have to use a piece of middleware known as the "body parser" within "./server.js". it will be app.use(express.json()). as you can tell it comes by default with Express
   //   console.log(req.body);
 
+  // Add user to req.body so we can use it in const bootcamp
+  req.body.user = req.user.id;
+
+  // Check for any prior published bootcamp
+  // we're finding the user via the login id, aka req.user.id
+  const publishedBootcamp = await Bootcamp.findOne({ user: req.user.id });
+
+  // if the user is not an admin, they can only add one bootcamp
+  if (publishedBootcamp && req.user.role !== "admin") {
+    return next(
+      new ErrorResponse(
+        `The user with ID ${req.user.id} has already published a bootcamp`,
+        400
+      )
+    );
+  }
+
   // now that we've verified that we can use req.body thanks to the "body parser" we will now use our Bootcamp model and populate it with our req.body data
   // if there is a field that exists within req.body that doesn't exist within our model then Mongoose will ignore it
   const bootcamp = await Bootcamp.create(req.body);

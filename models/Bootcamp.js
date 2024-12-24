@@ -100,6 +100,12 @@ const BootcampSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
+    // now we have a user associated to a bootcamp
+    user: {
+      type: mongoose.Schema.ObjectId,
+      ref: "User",
+      required: true,
+    },
     // Virtuals are important to "reverse populate" our data from courses to bootcamps
   },
   {
