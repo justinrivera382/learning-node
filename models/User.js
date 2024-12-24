@@ -1,4 +1,5 @@
-// can't make a new schema for database with Mongoose!
+const crypto = require("crypto");
+// can't make a new schema for database withOUT Mongoose!
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -39,7 +40,17 @@ const UserSchema = new mongoose.Schema({
 
 // Encrypt password using bcrypt
 // makes passwords secure
+// I was confused about the "next" parameter so I looked it up and it said:
+// Middleware (next): The next function is used specifically in Mongoose middleware (such as pre and post hooks), where you want to either proceed with the next middleware or handle errors. It is necessary in those cases to control the flow of the operation (e.g., saving the document, updating, etc.).
+// Instance Methods (this): The getSignedJwtToken method you're defining is a custom instance method on the User model, not a middleware. This method doesn't need next() because it's not part of the middleware chain that Mongoose needs to control the flow for.
+// Your method is simply a function that generates a JWT and returns it. It operates on the specific instance of a User, and it doesn’t involve async operations or Mongoose middleware that would require the next function.
 UserSchema.pre("save", async function (next) {
+  // if-statement matters because ".pre("save")" always runs whenever a model instance uses ".save()". for example "userModelInstance.save(...)" which will run all ".pre("save")" that exist in the Model Schema. in this example it would be the User Model Schema.
+  // therefore, it, originally, would want us to change the password, but using the if-statement we can check if we modified the password, if we did we can encrypt and update it, if not we can just go to the "next()" middleware
+  if (!this.isModified("password")) {
+    next();
+  }
+
   // genSalt is "how encrypted" you want it to be and 10 is the recommended value
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
@@ -58,6 +69,23 @@ UserSchema.methods.getSignedJwtToken = function () {
 // NOTE ".matchPassword()" is NOT a static method, therefore it is called on the actual user instance meaning it has access to the actual hashed password on the user instance
 UserSchema.methods.matchPassword = async function (loginPassword) {
   return await bcrypt.compare(loginPassword, this.password);
+};
+
+// Generate and hash password token
+UserSchema.methods.getResetPasswordToken = function () {
+  // Generate token
+  const resetToken = crypto.randomBytes(20).toString("hex");
+
+  // Hash token and set to resetPasswordToken field
+  this.resetPasswordToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+
+  // Set expiration time, in this case 10 minutes
+  this.resetPasswordExpire = Date.now() + 10 * 60 * 1000;
+
+  return resetToken;
 };
 
 module.exports = mongoose.model("User", UserSchema);
