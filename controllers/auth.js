@@ -1,5 +1,6 @@
 const ErrorResponse = require("../utils/errorResponse");
 const asyncHandler = require("../middleware/async");
+const sendEmail = require("../utils/sendEmail");
 const User = require("../models/User");
 
 // @desc        Register user
@@ -77,15 +78,43 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
   // Get reset token
   const resetToken = user.getResetPasswordToken();
 
+  // Create reset url
+  const resetUrl = `${req.protocol}://${req.get(
+    "host"
+  )}/api/v1/resetpassword/${resetToken}`;
+
+  const message = `You are receiving this email because you (or someone else) has requested the reset of a password. Please make a PUT request to: \n\n ${resetUrl}`;
+
+  try {
+    await sendEmail({
+      email: user.email,
+      subject: "Password reset token",
+      message,
+    });
+
+    res.status(200).json({ success: true, data: "Email sent" });
+  } catch (err) {
+    console.log(err);
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+
+    await user.save({ validateBeforeSave: false });
+
+    return next(new ErrorResponse("Email could not be sent", 500));
+  }
+
   // console.log(resetToken);
 
   // Save resetToken into database
+  // NOTE that ".save()" is a reference to the ".pre("save", ...)" found in any of the files in "./models"
+  // Meaning that
   await user.save({ validateBeforeSave: false });
 
-  res.status(200).json({
-    success: true,
-    data: user,
-  });
+  // the below code commented out actually run an "ERR_HTTP_HEADERS_SENT" if not commented out. so i commented it out. it doesn't stop/halt anything. It just throws an error in the console. doesn't seem like anything to really worry about
+  // res.status(200).json({
+  //   success: true,
+  //   data: user,
+  // });
 });
 
 // Get token from model, create cookie and send response
