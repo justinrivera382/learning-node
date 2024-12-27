@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { getReviews, getReview } = require("../controllers/reviews");
+const { getReviews, getReview, addReview } = require("../controllers/reviews");
 
 const Review = require("../models/Review");
 
@@ -17,13 +17,16 @@ const { protect, authorize } = require("../middleware/auth");
 // after re-looking I've found that the specific route at the ".get(getCourses)" is NOT just a single route, but both "/api/v1/courses" AND "/api/v1/bootcamps/:bootcampId/courses" so maybe that's how it's capable of being connected to the same "root" route
 // all of this is kind of confusing but by building more of this it should come more easily
 // NOTE: in the "getCourses" we got the object {path: "bootcamp", select: "name description"} from "./controllers/courses.js" from the, surprise surprise, "getCourses" on the section that has ".populate({path: "bootcamp", select: "name description"})"
-router.route("/").get(
-  advancedResults(Review, {
-    path: "bootcamp",
-    select: "name description",
-  }),
-  getReviews
-);
+router
+  .route("/")
+  .get(
+    advancedResults(Review, {
+      path: "bootcamp",
+      select: "name description",
+    }),
+    getReviews
+  )
+  .post(protect, authorize("user", "admin"), addReview);
 
 router.route("/:id").get(getReview);
 
