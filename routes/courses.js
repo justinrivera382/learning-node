@@ -9,11 +9,11 @@ const {
 } = require("../controllers/courses");
 
 const Course = require("../models/Course");
-const advancedResults = require("../middleware/advancedResults");
 
 // the params must be merged for us to use the "re-route" we did from "./routes/bootcamps.js"
 const router = express.Router({ mergeParams: true });
 
+const advancedResults = require("../middleware/advancedResults");
 // protecting our routes by checking their credentials, essentially creating that "private" routes we talked about in "./controllers" directory
 const { protect, authorize } = require("../middleware/auth");
 

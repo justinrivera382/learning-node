@@ -12,7 +12,6 @@ const {
 } = require("../controllers/bootcamps");
 
 const Bootcamp = require("../models/Bootcamp");
-const advancedResults = require("../middleware/advancedResults");
 
 // Include other resource routers
 const courseRouter = require("./courses");
@@ -22,6 +21,7 @@ const courseRouter = require("./courses");
 // you should see when we go use the "user signup" route where we will be authenticating users with a different route in, probably, a different file called "authentication.js" or something like that
 const router = express.Router();
 
+const advancedResults = require("../middleware/advancedResults");
 // protecting our routes by checking their credentials, essentially creating that "private" routes we talked about in "./controllers" directory
 // now we brought in "authorize" so only accounts with certain roles can access certain routes
 const { protect, authorize } = require("../middleware/auth");
