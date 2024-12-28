@@ -22,7 +22,7 @@ const errorHandler = (err, req, res, next) => {
 
   // now since we know what the name of the error is, we commented it out and used the if statement to "catch" the name and output a certain result, in this case a custom message and error response. an ErrorResponse class that we created and extended from the base Error class.
   if (err.name === "CastError") {
-    const message = `Resource not found with id of ${err.value}`;
+    const message = `Resource not found`;
     error = new ErrorResponse(message, 404);
   }
 
