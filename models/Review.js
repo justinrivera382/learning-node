@@ -55,6 +55,7 @@ ReviewSchema.index(
 // remember this is only the definition, we gotta invoke it to run it so we'll invoke it in the getAverageRating() after save/before remove
 // NOTE: although this functionality DOES WORK, it only works when you upload a review but when you delete a review it DOES NOT CHANGE the value. Something to keep in mind moving forward. Although this functionality is "finished" and "works" it is NOT "complete" so currently avoid re-creating this kind of functionality in your own applications
 // But I do not know that to be the case YET for the review. Gotta see more first then can confirm it or not.
+// DOES NOT WORK when you delete or update a review's rating. So this is a bust.
 ReviewSchema.statics.getAverageRating = async function (bootcampId) {
   // this is known as a pipeline and there are different steps in the pipeline
   const obj = await this.aggregate([
