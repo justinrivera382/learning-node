@@ -11,16 +11,19 @@ exports.protect = asyncHandler(async (req, res, next) => {
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer")
   ) {
+    // set token from Bearer token in header (one of two options), gotta pick one though
     // the point is the standard syntax with a "Bearer Token" is:
     // "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NjhlNDYwOTA2MjljMWQ3NjYwMjU2YyIsImlhdCI6MTczNDk4ODE4MywiZXhwIjoxNzM3NTgwMTgzfQ.2yN05oAabG7iIsWwamIHUFdc_oHtpdeHnxRqVVNlxkk"
     // if you can't tell, there's an empty space between "Bearer" and the "actual token". So that's why we're checking if it starts with "Bearer" and then we're formatting it with ".split(" ")[1]" with the [0]-index holding the value "Bearer" and the [1]-index holding whatever the "actual token" value is which is what we're storing in our token variable
     // NOTE the Bearer token was actually flagged by a 3rd party as a "leak" which is fine because this is just a practice project and not going to be actually released outside of just for fun in this case. the 3rd party seems legitimate though after some research on them. not a fan of them just "scraping" for emails on github but they did have a decent check with what appears to be good intentions so no real complaints here
     token = req.headers.authorization.split(" ")[1];
   }
-  // we will handle this later
-  //   else if(req.cookies.token) {
-  // token = req.cookies.token
-  //   }
+  // set token from cookie (one of two options), gotta pick one though
+  // cookies allow us to maintain a certain length of "memory" of the current session allowing the user to continuously login without having to use the "bearer" token. it's convenient
+  // this is just a convenient option to log a user in
+  // else if (req.cookies.token) {
+  //   token = req.cookies.token;
+  // }
 
   // Make sure token exists
   if (!token) {
