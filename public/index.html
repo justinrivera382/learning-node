@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Project: DevCamper API.md</title>
+    <style></style>
+  </head>
+  <body id="preview">
+    <h1 class="code-line" data-line-start="0" data-line-end="1">
+      <a id="Project_DevCamper_API_0"></a>Project: DevCamper API
+    </h1>
+    <p class="has-line-data" data-line-start="1" data-line-end="2">
+      Backend API for the DevCamper application to manage bootcamps, courses,
+      reviews, users and authentication.
+    </p>
+    <h1 class="code-line" data-line-start="2" data-line-end="3">
+      <a id="_Collection_Bootcamps_2"></a>📁 Collection: Bootcamps
+    </h1>
+    <div>
+      <h2 class="code-line" data-line-start="5" data-line-end="6">
+        <a id="Endpoint_Get_All_Bootcamps_5"></a>End-point: Get All Bootcamps
+      </h2>
+      <p class="has-line-data" data-line-start="6" data-line-end="7">
+        Fetch all bootcamps from database. Includes pagination, filtering, etc…
+      </p>
+      <h3 class="code-line" data-line-start="7" data-line-end="8">
+        <a id="Method_GET_7"></a>Method: GET
+      </h3>
+      <blockquote>
+        <pre><code class="has-line-data" data-line-start="9" data-line-end="11">{{URL}}/api/v1/bootcamps
+</code></pre>
+      </blockquote>
+      <p class="has-line-data" data-line-start="12" data-line-end="13">
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+      </p>
+      <h2 class="code-line" data-line-start="14" data-line-end="15">
+        <a id="Endpoint_Get_Single_Bootcamps_14"></a>End-point: Get Single
+        Bootcamps
+      </h2>
+      <p class="has-line-data" data-line-start="15" data-line-end="16">
+        Get single bootcamp by ID
+      </p>
+      <h3 class="code-line" data-line-start="16" data-line-end="17">
+        <a id="Method_GET_16"></a>Method: GET
+      </h3>
+      <blockquote>
+        <pre><code class="has-line-data" data-line-start="18" data-line-end="20">{{URL}}/api/v1/bootcamps/1
+</code></pre>
+      </blockquote>
+      <p class="has-line-data" data-line-start="21" data-line-end="22">
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+      </p>
+      <h2 class="code-line" data-line-start="23" data-line-end="24">
+        <a id="Endpoint_Create_New_Bootcamp_23"></a>End-point: Create New
+        Bootcamp
+      </h2>
+      <p class="has-line-data" data-line-start="24" data-line-end="25">
+        Add new bootcamp to database. Must be authenticated and must be
+        publisher or admin
+      </p>
+      <h3 class="code-line" data-line-start="25" data-line-end="26">
+        <a id="Method_POST_25"></a>Method: POST
+      </h3>
+      <blockquote>
+        <pre><code class="has-line-data" data-line-start="27" data-line-end="29">{{URL}}/api/v1/bootcamps
+</code></pre>
+      </blockquote>
+      <h3 class="code-line" data-line-start="29" data-line-end="30">
+        <a id="Headers_29"></a>Headers
+      </h3>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Content-Type</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Content-Type</td>
+            <td>application/json</td>
+          </tr>
+        </tbody>
+      </table>
+      <h3 class="code-line" data-line-start="36" data-line-end="37">
+        <a id="Body_raw_36"></a>Body (<strong>raw</strong>)
+      </h3>
+      <pre><code class="has-line-data" data-line-start="39" data-line-end="53" class="language-json">{
+"<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"FAKERY CAMP"</span></span>,
+        "<span class="hljs-attribute">description</span>": <span class="hljs-value"><span class="hljs-string">"ModernTech has one goal, and that is to make you a rockstar developer and/or designer with a six figure salary. We teach both development and UI/UX"</span></span>,
+        "<span class="hljs-attribute">website</span>": <span class="hljs-value"><span class="hljs-string">"https://moderntech.com"</span></span>,
+        "<span class="hljs-attribute">phone</span>": <span class="hljs-value"><span class="hljs-string">"(222) 222-2222"</span></span>,
+        "<span class="hljs-attribute">email</span>": <span class="hljs-value"><span class="hljs-string">"<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6e0b001c0102022e03010a0b1c001a0b0d06400d0103">[email&#160;protected]</a>"</span></span>,
+        "<span class="hljs-attribute">address</span>": <span class="hljs-value"><span class="hljs-string">"220 Pawtucket St, Lowell, MA 01854"</span></span>,
+        "<span class="hljs-attribute">careers</span>": <span class="hljs-value">[<span class="hljs-string">"Web Development"</span>, <span class="hljs-string">"UI/UX"</span>, <span class="hljs-string">"Mobile Development"</span>]</span>,
+        "<span class="hljs-attribute">housing</span>": <span class="hljs-value"><span class="hljs-literal">false</span></span>,
+        "<span class="hljs-attribute">jobAssistance</span>": <span class="hljs-value"><span class="hljs-literal">true</span></span>,
+        "<span class="hljs-attribute">jobGuarantee</span>": <span class="hljs-value"><span class="hljs-literal">false</span></span>,
+        "<span class="hljs-attribute">acceptGi</span>": <span class="hljs-value"><span class="hljs-literal">true</span>
+</span>}
+</code></pre>
+      <h3 class="code-line" data-line-start="54" data-line-end="55">
+        <a id="_Authentication_bearer_54"></a>🔑 Authentication bearer
+      </h3>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Param</th>
+            <th>value</th>
+            <th>Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>token</td>
+            <td>{{TOKEN}}</td>
+            <td>string</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="has-line-data" data-line-start="62" data-line-end="63">
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+      </p>
+      <h2 class="code-line" data-line-start="64" data-line-end="65">
+        <a id="Endpoint_Update_Bootcamp_64"></a>End-point: Update Bootcamp
+      </h2>
+      <p class="has-line-data" data-line-start="65" data-line-end="66">
+        Update single bootcamp in database
+      </p>
+      <h3 class="code-line" data-line-start="66" data-line-end="67">
+        <a id="Method_PUT_66"></a>Method: PUT
+      </h3>
+      <blockquote>
+        <pre><code class="has-line-data" data-line-start="68" data-line-end="70">{{URL}}/api/v1/bootcamps/675f984fe2423480fc28f192
+</code></pre>
+      </blockquote>
+      <h3 class="code-line" data-line-start="70" data-line-end="71">
+        <a id="Headers_70"></a>Headers
+      </h3>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Content-Type</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Content-Type</td>
+            <td>application/json</td>
+          </tr>
+        </tbody>
+      </table>
+      <h3 class="code-line" data-line-start="77" data-line-end="78">
+        <a id="Body_raw_77"></a>Body (<strong>raw</strong>)
+      </h3>
+      <pre><code class="has-line-data" data-line-start="80" data-line-end="84" class="language-json">{
+    "<span class="hljs-attribute">careers</span>": <span class="hljs-value">[<span class="hljs-string">"Web Development"</span>, <span class="hljs-string">"UI/UX"</span>]
+</span>}
+</code></pre>
+      <h3 class="code-line" data-line-start="85" data-line-end="86">
+        <a id="_Authentication_bearer_85"></a>🔑 Authentication bearer
+      </h3>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Param</th>
+            <th>value</th>
+            <th>Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>token</td>
+            <td>{{TOKEN}}</td>
+            <td>string</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="has-line-data" data-line-start="93" data-line-end="94">
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+      </p>
+      <h2 class="code-line" data-line-start="95" data-line-end="96">
+        <a id="Endpoint_Delete_Bootcamp_95"></a>End-point: Delete Bootcamp
+      </h2>
+      <p class="has-line-data" data-line-start="96" data-line-end="97">
+        Delete bootcamp from database
+      </p>
+      <h3 class="code-line" data-line-start="97" data-line-end="98">
+        <a id="Method_DELETE_97"></a>Method: DELETE
+      </h3>
+      <blockquote>
+        <pre><code class="has-line-data" data-line-start="99" data-line-end="101">{{URL}}/api/v1/bootcamps/6769d52126633b287a1880d0
+</code></pre>
+      </blockquote>
+      <h3 class="code-line" data-line-start="101" data-line-end="102">
+        <a id="_Authentication_bearer_101"></a>🔑 Authentication bearer
+      </h3>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Param</th>
+            <th>value</th>
+            <th>Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>token</td>
+            <td>{{TOKEN}}</td>
+            <td>string</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="has-line-data" data-line-start="109" data-line-end="110">
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+      </p>
+      <h2 class="code-line" data-line-start="111" data-line-end="112">
+        <a id="Endpoint_Get_Bootcamps_By_Distance_111"></a>End-point: Get
+        Bootcamps By Distance
+      </h2>
+      <p class="has-line-data" data-line-start="112" data-line-end="113">
+        Get bootcamps within the radius of a specific zipcode
+      </p>
+      <h3 class="code-line" data-line-start="113" data-line-end="114">
+        <a id="Method_GET_113"></a>Method: GET
+      </h3>
+      <blockquote>
+        <pre><code class="has-line-data" data-line-start="115" data-line-end="117">{{URL}}/api/v1/bootcamps/radius/02118/10
+</code></pre>
+      </blockquote>
+      <p class="has-line-data" data-line-start="118" data-line-end="119">
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+      </p>
+      <h2 class="code-line" data-line-start="120" data-line-end="121">
+        <a id="Endpoint_Get_Bootcamps_By_gt__gte__lt__lte__in_120"></a
+        >End-point: Get Bootcamps By gt | gte | lt | lte | in
+      </h2>
+      <p class="has-line-data" data-line-start="121" data-line-end="122">
+        Get bootcamps by greater than/equal to, less than/equal to, or in
+      </p>
+      <h3 class="code-line" data-line-start="122" data-line-end="123">
+        <a id="Method_GET_122"></a>Method: GET
+      </h3>
+      <blockquote>
+        <pre><code class="has-line-data" data-line-start="124" data-line-end="126">{{URL}}/api/v1/bootcamps?averageCost[lte]=10000
+</code></pre>
+      </blockquote>
+      <h3 class="code-line" data-line-start="126" data-line-end="127">
+        <a id="Query_Params_126"></a>Query Params
+      </h3>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Param</th>
+            <th>value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>averageCost[lte]</td>
+            <td>10000</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="has-line-data" data-line-start="134" data-line-end="135">
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+      </p>
+      <h2 class="code-line" data-line-start="136" data-line-end="137">
+        <a id="Endpoint_Upload_Photo_136"></a>End-point: Upload Photo
+      </h2>
+      <p class="has-line-data" data-line-start="137" data-line-end="138">
+        Route to upload a bootcamp photo
+      </p>
+      <h3 class="code-line" data-line-start="138" data-line-end="139">
+        <a id="Method_PUT_138"></a>Method: PUT
+      </h3>
+      <blockquote>
+        <pre><code class="has-line-data" data-line-start="140" data-line-end="142">{{URL}}/api/v1/bootcamps/5d725a1b7b292f5f8ceff788/photo
+</code></pre>
+      </blockquote>
+      <h3 class="code-line" data-line-start="142" data-line-end="143">
+        <a id="Headers_142"></a>Headers
+      </h3>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Content-Type</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Content-Type</td>
+            <td>application/json</td>
+          </tr>
+        </tbody>
+      </table>
+      <h3 class="code-line" data-line-start="149" data-line-end="150">
+        <a id="Body_raw_149"></a>Body (<strong>raw</strong>)
+      </h3>
+      <pre><code class="has-line-data" data-line-start="152" data-line-end="156" class="language-json">{
+    "<span class="hljs-attribute">careers</span>": <span class="hljs-value">[<span class="hljs-string">"Web Development"</span>, <span class="hljs-string">"UI/UX"</span>]
+</span>}
+</code></pre>
+      <h3 class="code-line" data-line-start="157" data-line-end="158">
+        <a id="_Authentication_bearer_157"></a>🔑 Authentication bearer
+      </h3>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Param</th>
+            <th>value</th>
+            <th>Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>token</td>
+            <td>{{TOKEN}}</td>
+            <td>string</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="has-line-data" data-line-start="165" data-line-end="166">
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+      </p>
+      <h1 class="code-line" data-line-start="166" data-line-end="167">
+        <a id="_Collection_Courses_166"></a>📁 Collection: Courses
+      </h1>
+      <h2 class="code-line" data-line-start="169" data-line-end="170">
+        <a id="Endpoint_Get_All_Courses_169"></a>End-point: Get All Courses
+      </h2>
+      <p class="has-line-data" data-line-start="170" data-line-end="171">
+        Get all courses in database
+      </p>
+      <h3 class="code-line" data-line-start="171" data-line-end="172">
+        <a id="Method_GET_171"></a>Method: GET
+      </h3>
+      <blockquote>
+        <pre><code class="has-line-data" data-line-start="173" data-line-end="175">{{URL}}/api/v1/courses
+</code></pre>
+      </blockquote>
+      <p class="has-line-data" data-line-start="176" data-line-end="177">
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+      </p>
+      <h2 class="code-line" data-line-start="178" data-line-end="179">
+        <a id="Endpoint_Get_Courses_For_Bootcamp_178"></a>End-point: Get Courses
+        For Bootcamp
+      </h2>
+      <p class="has-line-data" data-line-start="179" data-line-end="180">
+        Get the specific courses for the bootcamp
+      </p>
+      <h3 class="code-line" data-line-start="180" data-line-end="181">
+        <a id="Method_GET_180"></a>Method: GET
+      </h3>
+      <blockquote>
+        <pre><code class="has-line-data" data-line-start="182" data-line-end="184">{{URL}}/api/v1/bootcamps/5d713995b721c3bb38c1f5d0/courses
+</code></pre>
+      </blockquote>
+      <p class="has-line-data" data-line-start="185" data-line-end="186">
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+      </p>
+      <h2 class="code-line" data-line-start="187" data-line-end="188">
+        <a id="Endpoint_Get_Single_Course_187"></a>End-point: Get Single Course
+      </h2>
+      <p class="has-line-data" data-line-start="188" data-line-end="189">
+        Get single course by id
+      </p>
+      <h3 class="code-line" data-line-start="189" data-line-end="190">
+        <a id="Method_GET_189"></a>Method: GET
+      </h3>
+      <blockquote>
+        <pre><code class="has-line-data" data-line-start="191" data-line-end="193">{{URL}}/api/v1/courses/5d725a4a7b292f5f8ceff789
+</code></pre>
+      </blockquote>
+      <p class="has-line-data" data-line-start="194" data-line-end="195">
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+      </p>
+      <h2 class="code-line" data-line-start="196" data-line-end="197">
+        <a id="Endpoint_Create_Bootcamp_Course_196"></a>End-point: Create
+        Bootcamp Course
+      </h2>
+      <p class="has-line-data" data-line-start="197" data-line-end="198">
+        Create a course for a specific bootcamp
+      </p>
+      <h3 class="code-line" data-line-start="198" data-line-end="199">
+        <a id="Method_POST_198"></a>Method: POST
+      </h3>
+      <blockquote>
+        <pre><code class="has-line-data" data-line-start="200" data-line-end="202">{{URL}}/api/v1/bootcamps/5d725a1b7b292f5f8ceff788/courses
+</code></pre>
+      </blockquote>
+      <h3 class="code-line" data-line-start="202" data-line-end="203">
+        <a id="Headers_202"></a>Headers
+      </h3>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Content-Type</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Content-Type</td>
+            <td>application/json</td>
+          </tr>
+        </tbody>
+      </table>
+      <h3 class="code-line" data-line-start="209" data-line-end="210">
+        <a id="Body_raw_209"></a>Body (<strong>raw</strong>)
+      </h3>
+      <pre><code class="has-line-data" data-line-start="212" data-line-end="221" class="language-json">{
+            "<span class="hljs-attribute">title</span>": <span class="hljs-value"><span class="hljs-string">"Full Stack Web Development"</span></span>,
+        "<span class="hljs-attribute">description</span>": <span class="hljs-value"><span class="hljs-string">"In this course you will learn full stack web development, first learning all about the frontend with HTML/CSS/JS/Vue and then the backend with Node.js/Express/MongoDB"</span></span>,
+        "<span class="hljs-attribute">weeks</span>": <span class="hljs-value"><span class="hljs-number">12</span></span>,
+        "<span class="hljs-attribute">tuition</span>": <span class="hljs-value"><span class="hljs-number">10000</span></span>,
+        "<span class="hljs-attribute">minimumSkill</span>": <span class="hljs-value"><span class="hljs-string">"intermediate"</span></span>,
+        "<span class="hljs-attribute">scholarhipsAvailable</span>": <span class="hljs-value"><span class="hljs-literal">true</span>
+</span>}
+</code></pre>
+      <h3 class="code-line" data-line-start="222" data-line-end="223">
+        <a id="_Authentication_bearer_222"></a>🔑 Authentication bearer
+      </h3>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Param</th>
+            <th>value</th>
+            <th>Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>token</td>
+            <td>{{TOKEN}}</td>
+            <td>string</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="has-line-data" data-line-start="230" data-line-end="231">
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+      </p>
+      <h2 class="code-line" data-line-start="232" data-line-end="233">
+        <a id="Endpoint_Update_Course_232"></a>End-point: Update Course
+      </h2>
+      <p class="has-line-data" data-line-start="233" data-line-end="234">
+        Update course in database
+      </p>
+      <h3 class="code-line" data-line-start="234" data-line-end="235">
+        <a id="Method_PUT_234"></a>Method: PUT
+      </h3>
+      <blockquote>
+        <pre><code class="has-line-data" data-line-start="236" data-line-end="238">{{URL}}/api/v1/courses/5d725c84c4ded7bcb480eaa0
+</code></pre>
+      </blockquote>
+      <h3 class="code-line" data-line-start="238" data-line-end="239">
+        <a id="Headers_238"></a>Headers
+      </h3>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Content-Type</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Content-Type</td>
+            <td>application/json</td>
+          </tr>
+        </tbody>
+      </table>
+      <h3 class="code-line" data-line-start="245" data-line-end="246">
+        <a id="Body_raw_245"></a>Body (<strong>raw</strong>)
+      </h3>
+      <pre><code class="has-line-data" data-line-start="248" data-line-end="253" class="language-json">{
+    "<span class="hljs-attribute">tuition</span>": <span class="hljs-value"><span class="hljs-number">13000</span></span>,
+    "<span class="hljs-attribute">minimumSkill</span>": <span class="hljs-value"><span class="hljs-string">"advanced"</span>
+</span>}
+</code></pre>
+      <h3 class="code-line" data-line-start="254" data-line-end="255">
+        <a id="_Authentication_bearer_254"></a>🔑 Authentication bearer
+      </h3>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Param</th>
+            <th>value</th>
+            <th>Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>token</td>
+            <td>{{TOKEN}}</td>
+            <td>string</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="has-line-data" data-line-start="262" data-line-end="263">
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+      </p>
+      <h2 class="code-line" data-line-start="264" data-line-end="265">
+        <a id="Endpoint_Delete_Course_264"></a>End-point: Delete Course
+      </h2>
+      <p class="has-line-data" data-line-start="265" data-line-end="266">
+        Remove a course from the database
+      </p>
+      <h3 class="code-line" data-line-start="266" data-line-end="267">
+        <a id="Method_DELETE_266"></a>Method: DELETE
+      </h3>
+      <blockquote>
+        <pre><code class="has-line-data" data-line-start="268" data-line-end="270">{{URL}}/api/v1/courses/5d725a4a7b292f5f8ceff789
+</code></pre>
+      </blockquote>
+      <h3 class="code-line" data-line-start="270" data-line-end="271">
+        <a id="Body_raw_270"></a>Body (<strong>raw</strong>)
+      </h3>
+      <pre><code class="has-line-data" data-line-start="273" data-line-end="275" class="language-json">
+</code></pre>
+      <h3 class="code-line" data-line-start="276" data-line-end="277">
+        <a id="_Authentication_bearer_276"></a>🔑 Authentication bearer
+      </h3>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Param</th>
+            <th>value</th>
+            <th>Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>token</td>
+            <td>{{TOKEN}}</td>
+            <td>string</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="has-line-data" data-line-start="284" data-line-end="285">
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+      </p>
+      <h1 class="code-line" data-line-start="285" data-line-end="286">
+        <a id="_Collection_Authentication_285"></a>📁 Collection: Authentication
+      </h1>
+      <h2 class="code-line" data-line-start="288" data-line-end="289">
+        <a id="Endpoint_Register_User_288"></a>End-point: Register User
+      </h2>
+      <p class="has-line-data" data-line-start="289" data-line-end="290">
+        Add a user to the database with encrypted password
+      </p>
+      <h3 class="code-line" data-line-start="290" data-line-end="291">
+        <a id="Method_POST_290"></a>Method: POST
+      </h3>
+      <blockquote>
+        <pre><code class="has-line-data" data-line-start="292" data-line-end="294">{{URL}}/api/v1/auth/register
+</code></pre>
+      </blockquote>
+      <h3 class="code-line" data-line-start="294" data-line-end="295">
+        <a id="Body_raw_294"></a>Body (<strong>raw</strong>)
+      </h3>
+      <pre><code class="has-line-data" data-line-start="297" data-line-end="304" class="language-json">{
+    "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"Bob Dylan"</span></span>,
+    "<span class="hljs-attribute">email</span>": <span class="hljs-value"><span class="hljs-string">"<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="35575a57755258545c591b565a58">[email&#160;protected]</a>"</span></span>,
+    "<span class="hljs-attribute">password</span>": <span class="hljs-value"><span class="hljs-string">"123456"</span></span>,
+    "<span class="hljs-attribute">role</span>": <span class="hljs-value"><span class="hljs-string">"publisher"</span>
+</span>}
+</code></pre>
+      <p class="has-line-data" data-line-start="306" data-line-end="307">
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+      </p>
+      <h2 class="code-line" data-line-start="308" data-line-end="309">
+        <a id="Endpoint_Login_User_308"></a>End-point: Login User
+      </h2>
+      <h3 class="code-line" data-line-start="309" data-line-end="310">
+        <a id="Method_POST_309"></a>Method: POST
+      </h3>
+      <blockquote>
+        <pre><code class="has-line-data" data-line-start="311" data-line-end="313">{{URL}}/api/v1/auth/login
+</code></pre>
+      </blockquote>
+      <h3 class="code-line" data-line-start="313" data-line-end="314">
+        <a id="Headers_313"></a>Headers
+      </h3>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Content-Type</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Content-Type</td>
+            <td>application/json</td>
+          </tr>
+        </tbody>
+      </table>
+      <h3 class="code-line" data-line-start="320" data-line-end="321">
+        <a id="Body_raw_320"></a>Body (<strong>raw</strong>)
+      </h3>
+      <pre><code class="has-line-data" data-line-start="323" data-line-end="328" class="language-json">{
+    "<span class="hljs-attribute">email</span>": <span class="hljs-value"><span class="hljs-string">"<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4c262324220c2b212d2520622f2321">[email&#160;protected]</a>"</span></span>,
+    "<span class="hljs-attribute">password</span>": <span class="hljs-value"><span class="hljs-string">"123456"</span>
+</span>}
+</code></pre>
+      <p class="has-line-data" data-line-start="330" data-line-end="331">
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+      </p>
+      <h2 class="code-line" data-line-start="332" data-line-end="333">
+        <a id="Endpoint_Get_Logged_in_User_via_Token_332"></a>End-point: Get
+        Logged in User via Token
+      </h2>
+      <h3 class="code-line" data-line-start="333" data-line-end="334">
+        <a id="Method_GET_333"></a>Method: GET
+      </h3>
+      <blockquote>
+        <pre><code class="has-line-data" data-line-start="335" data-line-end="337">{{URL}}/api/v1/auth/me
+</code></pre>
+      </blockquote>
+      <h3 class="code-line" data-line-start="337" data-line-end="338">
+        <a id="Headers_337"></a>Headers
+      </h3>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Content-Type</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Content-Type</td>
+            <td>application/json</td>
+          </tr>
+        </tbody>
+      </table>
+      <h3 class="code-line" data-line-start="344" data-line-end="345">
+        <a id="Body_raw_344"></a>Body (<strong>raw</strong>)
+      </h3>
+      <pre><code class="has-line-data" data-line-start="347" data-line-end="349" class="language-json">
+</code></pre>
+      <h3 class="code-line" data-line-start="350" data-line-end="351">
+        <a id="_Authentication_bearer_350"></a>🔑 Authentication bearer
+      </h3>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Param</th>
+            <th>value</th>
+            <th>Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>token</td>
+            <td>{{TOKEN}}</td>
+            <td>string</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="has-line-data" data-line-start="358" data-line-end="359">
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+      </p>
+      <h2 class="code-line" data-line-start="360" data-line-end="361">
+        <a id="Endpoint_Forgot_Password_360"></a>End-point: Forgot Password
+      </h2>
+      <p class="has-line-data" data-line-start="361" data-line-end="362">
+        Generate password token and send email
+      </p>
+      <h3 class="code-line" data-line-start="362" data-line-end="363">
+        <a id="Method_POST_362"></a>Method: POST
+      </h3>
+      <blockquote>
+        <pre><code class="has-line-data" data-line-start="364" data-line-end="366">{{URL}}/api/v1/auth/forgotpassword
+</code></pre>
+      </blockquote>
+      <h3 class="code-line" data-line-start="366" data-line-end="367">
+        <a id="Headers_366"></a>Headers
+      </h3>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Content-Type</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Content-Type</td>
+            <td>application/json</td>
+          </tr>
+        </tbody>
+      </table>
+      <h3 class="code-line" data-line-start="373" data-line-end="374">
+        <a id="Body_raw_373"></a>Body (<strong>raw</strong>)
+      </h3>
+      <pre><code class="has-line-data" data-line-start="376" data-line-end="380" class="language-json">{
+    "<span class="hljs-attribute">email</span>": <span class="hljs-value"><span class="hljs-string">"<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="fd97929593bd9a909c9491d39e9290">[email&#160;protected]</a>"</span>
+</span>}
+</code></pre>
+      <p class="has-line-data" data-line-start="382" data-line-end="383">
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+      </p>
+      <h2 class="code-line" data-line-start="384" data-line-end="385">
+        <a id="Endpoint_Reset_Password_384"></a>End-point: Reset Password
+      </h2>
+      <p class="has-line-data" data-line-start="385" data-line-end="386">
+        Reset user password using token
+      </p>
+      <h3 class="code-line" data-line-start="386" data-line-end="387">
+        <a id="Method_PUT_386"></a>Method: PUT
+      </h3>
+      <blockquote>
+        <pre><code class="has-line-data" data-line-start="388" data-line-end="390">{{URL}}/api/v1/auth/resetpassword/a1f61667151963fbe802559c41cb7838fb821ad8
+</code></pre>
+      </blockquote>
+      <h3 class="code-line" data-line-start="390" data-line-end="391">
+        <a id="Headers_390"></a>Headers
+      </h3>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Content-Type</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Content-Type</td>
+            <td>application/json</td>
+          </tr>
+        </tbody>
+      </table>
+      <h3 class="code-line" data-line-start="397" data-line-end="398">
+        <a id="Body_raw_397"></a>Body (<strong>raw</strong>)
+      </h3>
+      <pre><code class="has-line-data" data-line-start="400" data-line-end="404" class="language-json">{
+    "<span class="hljs-attribute">password</span>": <span class="hljs-value"><span class="hljs-string">"1234567"</span>
+</span>}
+</code></pre>
+      <p class="has-line-data" data-line-start="406" data-line-end="407">
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+      </p>
+      <h2 class="code-line" data-line-start="408" data-line-end="409">
+        <a id="Endpoint_Update_User_Details_408"></a>End-point: Update User
+        Details
+      </h2>
+      <p class="has-line-data" data-line-start="409" data-line-end="410">
+        Update logged in user’s name and email
+      </p>
+      <h3 class="code-line" data-line-start="410" data-line-end="411">
+        <a id="Method_PUT_410"></a>Method: PUT
+      </h3>
+      <blockquote>
+        <pre><code class="has-line-data" data-line-start="412" data-line-end="414">{{URL}}/api/v1/auth/updatedetails
+</code></pre>
+      </blockquote>
+      <h3 class="code-line" data-line-start="414" data-line-end="415">
+        <a id="Headers_414"></a>Headers
+      </h3>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Content-Type</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Content-Type</td>
+            <td>application/json</td>
+          </tr>
+        </tbody>
+      </table>
+      <h3 class="code-line" data-line-start="421" data-line-end="422">
+        <a id="Body_raw_421"></a>Body (<strong>raw</strong>)
+      </h3>
+      <pre><code class="has-line-data" data-line-start="424" data-line-end="429" class="language-json">{
+    "<span class="hljs-attribute">email</span>": <span class="hljs-value"><span class="hljs-string">"<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="9bf1f4f3f5dbfcf6faf2f7b5f8f4f6">[email&#160;protected]</a>"</span></span>,
+    "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"John Doe"</span>
+</span>}
+</code></pre>
+      <h3 class="code-line" data-line-start="430" data-line-end="431">
+        <a id="_Authentication_bearer_430"></a>🔑 Authentication bearer
+      </h3>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Param</th>
+            <th>value</th>
+            <th>Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>token</td>
+            <td>{{TOKEN}}</td>
+            <td>string</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="has-line-data" data-line-start="438" data-line-end="439">
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+      </p>
+      <h2 class="code-line" data-line-start="440" data-line-end="441">
+        <a id="Endpoint_Update_Password_440"></a>End-point: Update Password
+      </h2>
+      <p class="has-line-data" data-line-start="441" data-line-end="442">
+        Update logged in user’s password, send in the body currentPassword and
+        newPassword
+      </p>
+      <h3 class="code-line" data-line-start="442" data-line-end="443">
+        <a id="Method_PUT_442"></a>Method: PUT
+      </h3>
+      <blockquote>
+        <pre><code class="has-line-data" data-line-start="444" data-line-end="446">{{URL}}/api/v1/auth/updatepassword
+</code></pre>
+      </blockquote>
+      <h3 class="code-line" data-line-start="446" data-line-end="447">
+        <a id="Headers_446"></a>Headers
+      </h3>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Content-Type</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Content-Type</td>
+            <td>application/json</td>
+          </tr>
+        </tbody>
+      </table>
+      <h3 class="code-line" data-line-start="453" data-line-end="454">
+        <a id="Body_raw_453"></a>Body (<strong>raw</strong>)
+      </h3>
+      <pre><code class="has-line-data" data-line-start="456" data-line-end="461" class="language-json">{
+    "<span class="hljs-attribute">currentPassword</span>": <span class="hljs-value"><span class="hljs-string">"1234567"</span></span>,
+    "<span class="hljs-attribute">newPassword</span>": <span class="hljs-value"><span class="hljs-string">"123456"</span>
+</span>}
+</code></pre>
+      <h3 class="code-line" data-line-start="462" data-line-end="463">
+        <a id="_Authentication_bearer_462"></a>🔑 Authentication bearer
+      </h3>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Param</th>
+            <th>value</th>
+            <th>Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>token</td>
+            <td>{{TOKEN}}</td>
+            <td>string</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="has-line-data" data-line-start="470" data-line-end="471">
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+      </p>
+      <h2 class="code-line" data-line-start="472" data-line-end="473">
+        <a id="Endpoint_Logout_User_472"></a>End-point: Logout User
+      </h2>
+      <p class="has-line-data" data-line-start="473" data-line-end="474">
+        Clear token cookie
+      </p>
+      <h3 class="code-line" data-line-start="474" data-line-end="475">
+        <a id="Method_GET_474"></a>Method: GET
+      </h3>
+      <blockquote>
+        <pre><code class="has-line-data" data-line-start="476" data-line-end="478">{{URL}}/api/v1/auth/logout
+</code></pre>
+      </blockquote>
+      <p class="has-line-data" data-line-start="479" data-line-end="480">
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+      </p>
+      <h1 class="code-line" data-line-start="480" data-line-end="481">
+        <a id="_Collection_Users_480"></a>📁 Collection: Users
+      </h1>
+      <h2 class="code-line" data-line-start="483" data-line-end="484">
+        <a id="Endpoint_Get_All_Users_483"></a>End-point: Get All Users
+      </h2>
+      <p class="has-line-data" data-line-start="484" data-line-end="485">
+        Get all users (admin)
+      </p>
+      <h3 class="code-line" data-line-start="485" data-line-end="486">
+        <a id="Method_GET_485"></a>Method: GET
+      </h3>
+      <blockquote>
+        <pre><code class="has-line-data" data-line-start="487" data-line-end="489">{{URL}}/api/v1/users
+</code></pre>
+      </blockquote>
+      <h3 class="code-line" data-line-start="489" data-line-end="490">
+        <a id="_Authentication_bearer_489"></a>🔑 Authentication bearer
+      </h3>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Param</th>
+            <th>value</th>
+            <th>Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>token</td>
+            <td>{{TOKEN}}</td>
+            <td>string</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="has-line-data" data-line-start="497" data-line-end="498">
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+      </p>
+      <h2 class="code-line" data-line-start="499" data-line-end="500">
+        <a id="Endpoint_Get_Single_User_499"></a>End-point: Get Single User
+      </h2>
+      <p class="has-line-data" data-line-start="500" data-line-end="501">
+        Get single user by id (admin)
+      </p>
+      <h3 class="code-line" data-line-start="501" data-line-end="502">
+        <a id="Method_GET_501"></a>Method: GET
+      </h3>
+      <blockquote>
+        <pre><code class="has-line-data" data-line-start="503" data-line-end="505">{{URL}}/api/v1/users/5c8a1d5b0190b214360dc039
+</code></pre>
+      </blockquote>
+      <h3 class="code-line" data-line-start="505" data-line-end="506">
+        <a id="_Authentication_bearer_505"></a>🔑 Authentication bearer
+      </h3>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Param</th>
+            <th>value</th>
+            <th>Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>token</td>
+            <td>{{TOKEN}}</td>
+            <td>string</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="has-line-data" data-line-start="513" data-line-end="514">
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+      </p>
+      <h2 class="code-line" data-line-start="515" data-line-end="516">
+        <a id="Endpoint_Create_User_515"></a>End-point: Create User
+      </h2>
+      <p class="has-line-data" data-line-start="516" data-line-end="517">
+        Add user to database (admin)
+      </p>
+      <h3 class="code-line" data-line-start="517" data-line-end="518">
+        <a id="Method_POST_517"></a>Method: POST
+      </h3>
+      <blockquote>
+        <pre><code class="has-line-data" data-line-start="519" data-line-end="521">{{URL}}/api/v1/users/
+</code></pre>
+      </blockquote>
+      <h3 class="code-line" data-line-start="521" data-line-end="522">
+        <a id="Headers_521"></a>Headers
+      </h3>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Content-Type</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Content-Type</td>
+            <td>application/json</td>
+          </tr>
+        </tbody>
+      </table>
+      <h3 class="code-line" data-line-start="528" data-line-end="529">
+        <a id="Body_raw_528"></a>Body (<strong>raw</strong>)
+      </h3>
+      <pre><code class="has-line-data" data-line-start="531" data-line-end="537" class="language-json">{
+    "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"Nate Smith"</span></span>,
+    "<span class="hljs-attribute">email</span>": <span class="hljs-value"><span class="hljs-string">"<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="b4dad5c0d1f4d3d9d5ddd89ad7dbd9">[email&#160;protected]</a>"</span></span>,
+    "<span class="hljs-attribute">password</span>": <span class="hljs-value"><span class="hljs-string">"123456"</span>
+</span>}
+</code></pre>
+      <h3 class="code-line" data-line-start="538" data-line-end="539">
+        <a id="_Authentication_bearer_538"></a>🔑 Authentication bearer
+      </h3>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Param</th>
+            <th>value</th>
+            <th>Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>token</td>
+            <td>{{TOKEN}}</td>
+            <td>string</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="has-line-data" data-line-start="546" data-line-end="547">
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+      </p>
+      <h2 class="code-line" data-line-start="548" data-line-end="549">
+        <a id="Endpoint_Update_User_548"></a>End-point: Update User
+      </h2>
+      <p class="has-line-data" data-line-start="549" data-line-end="550">
+        Update user in database (admin)
+      </p>
+      <h3 class="code-line" data-line-start="550" data-line-end="551">
+        <a id="Method_PUT_550"></a>Method: PUT
+      </h3>
+      <blockquote>
+        <pre><code class="has-line-data" data-line-start="552" data-line-end="554">{{URL}}/api/v1/users/676e19cf86389f9732e413cd
+</code></pre>
+      </blockquote>
+      <h3 class="code-line" data-line-start="554" data-line-end="555">
+        <a id="Headers_554"></a>Headers
+      </h3>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Content-Type</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Content-Type</td>
+            <td>application/json</td>
+          </tr>
+        </tbody>
+      </table>
+      <h3 class="code-line" data-line-start="561" data-line-end="562">
+        <a id="Body_raw_561"></a>Body (<strong>raw</strong>)
+      </h3>
+      <pre><code class="has-line-data" data-line-start="564" data-line-end="570" class="language-json">{
+    "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"Nate Johnson"</span></span>,
+    "<span class="hljs-attribute">email</span>": <span class="hljs-value"><span class="hljs-string">"<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="99f7f8edfcd9fef4f8f0f5b7faf6f4">[email&#160;protected]</a>"</span></span>,
+    "<span class="hljs-attribute">password</span>": <span class="hljs-value"><span class="hljs-string">"123456"</span>
+</span>}
+</code></pre>
+      <h3 class="code-line" data-line-start="571" data-line-end="572">
+        <a id="_Authentication_bearer_571"></a>🔑 Authentication bearer
+      </h3>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Param</th>
+            <th>value</th>
+            <th>Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>token</td>
+            <td>{{TOKEN}}</td>
+            <td>string</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="has-line-data" data-line-start="579" data-line-end="580">
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+      </p>
+      <h2 class="code-line" data-line-start="581" data-line-end="582">
+        <a id="Endpoint_Delete_User_581"></a>End-point: Delete User
+      </h2>
+      <p class="has-line-data" data-line-start="582" data-line-end="583">
+        Delete user from database (admin)
+      </p>
+      <h3 class="code-line" data-line-start="583" data-line-end="584">
+        <a id="Method_DELETE_583"></a>Method: DELETE
+      </h3>
+      <blockquote>
+        <pre><code class="has-line-data" data-line-start="585" data-line-end="587">{{URL}}/api/v1/users/676e19cf86389f9732e413cd
+</code></pre>
+      </blockquote>
+      <h3 class="code-line" data-line-start="587" data-line-end="588">
+        <a id="Body_raw_587"></a>Body (<strong>raw</strong>)
+      </h3>
+      <pre><code class="has-line-data" data-line-start="590" data-line-end="592" class="language-json">
+</code></pre>
+      <h3 class="code-line" data-line-start="593" data-line-end="594">
+        <a id="_Authentication_bearer_593"></a>🔑 Authentication bearer
+      </h3>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Param</th>
+            <th>value</th>
+            <th>Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>token</td>
+            <td>{{TOKEN}}</td>
+            <td>string</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="has-line-data" data-line-start="601" data-line-end="602">
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+      </p>
+      <h1 class="code-line" data-line-start="602" data-line-end="603">
+        <a id="_Collection_Reviews_602"></a>📁 Collection: Reviews
+      </h1>
+      <h2 class="code-line" data-line-start="605" data-line-end="606">
+        <a id="Endpoint_Get_All_Reviews_605"></a>End-point: Get All Reviews
+      </h2>
+      <p class="has-line-data" data-line-start="606" data-line-end="607">
+        Get all reviews from database and populate with bootcamp name and
+        description.
+      </p>
+      <h3 class="code-line" data-line-start="607" data-line-end="608">
+        <a id="Method_GET_607"></a>Method: GET
+      </h3>
+      <blockquote>
+        <pre><code class="has-line-data" data-line-start="609" data-line-end="611">{{URL}}/api/v1/reviews
+</code></pre>
+      </blockquote>
+      <p class="has-line-data" data-line-start="612" data-line-end="613">
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+      </p>
+      <h2 class="code-line" data-line-start="614" data-line-end="615">
+        <a id="Endpoint_Get__Reviews_For_Bootcamp_614"></a>End-point: Get
+        Reviews For Bootcamp
+      </h2>
+      <p class="has-line-data" data-line-start="615" data-line-end="616">
+        Fetch the reviews for a specific bootcamp
+      </p>
+      <h3 class="code-line" data-line-start="616" data-line-end="617">
+        <a id="Method_GET_616"></a>Method: GET
+      </h3>
+      <blockquote>
+        <pre><code class="has-line-data" data-line-start="618" data-line-end="620">{{URL}}/api/v1/bootcamps/5d725a1b7b292f5f8ceff788/reviews
+</code></pre>
+      </blockquote>
+      <p class="has-line-data" data-line-start="621" data-line-end="622">
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+      </p>
+      <h2 class="code-line" data-line-start="623" data-line-end="624">
+        <a id="Endpoint_Get_Single_Review_623"></a>End-point: Get Single Review
+      </h2>
+      <p class="has-line-data" data-line-start="624" data-line-end="625">
+        Fetch a review from database by id and populate Bootcamp name and
+        description
+      </p>
+      <h3 class="code-line" data-line-start="625" data-line-end="626">
+        <a id="Method_GET_625"></a>Method: GET
+      </h3>
+      <blockquote>
+        <pre><code class="has-line-data" data-line-start="627" data-line-end="629">{{URL}}/api/v1/reviews/5d7a514b5d2c12c7449be027
+</code></pre>
+      </blockquote>
+      <p class="has-line-data" data-line-start="630" data-line-end="631">
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+      </p>
+      <h2 class="code-line" data-line-start="632" data-line-end="633">
+        <a id="Endpoint_Create_A_Review_632"></a>End-point: Create A Review
+      </h2>
+      <p class="has-line-data" data-line-start="633" data-line-end="634">
+        Create a single review for a single bootcamp
+      </p>
+      <h3 class="code-line" data-line-start="634" data-line-end="635">
+        <a id="Method_POST_634"></a>Method: POST
+      </h3>
+      <blockquote>
+        <pre><code class="has-line-data" data-line-start="636" data-line-end="638">{{URL}}/api/v1/bootcamps/5d725a1b7b292f5f8ceff788/reviews
+</code></pre>
+      </blockquote>
+      <h3 class="code-line" data-line-start="638" data-line-end="639">
+        <a id="Headers_638"></a>Headers
+      </h3>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Content-Type</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Content-Type</td>
+            <td>application/json</td>
+          </tr>
+        </tbody>
+      </table>
+      <h3 class="code-line" data-line-start="645" data-line-end="646">
+        <a id="Body_raw_645"></a>Body (<strong>raw</strong>)
+      </h3>
+      <pre><code class="has-line-data" data-line-start="648" data-line-end="654" class="language-json">{
+    "<span class="hljs-attribute">title</span>": <span class="hljs-value"><span class="hljs-string">"Nice Bootcamp"</span></span>,
+    "<span class="hljs-attribute">text</span>": <span class="hljs-value"><span class="hljs-string">"I learned a lot"</span></span>,
+    "<span class="hljs-attribute">rating</span>": <span class="hljs-value"><span class="hljs-number">9</span>
+</span>}
+</code></pre>
+      <h3 class="code-line" data-line-start="655" data-line-end="656">
+        <a id="_Authentication_bearer_655"></a>🔑 Authentication bearer
+      </h3>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Param</th>
+            <th>value</th>
+            <th>Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>token</td>
+            <td>{{TOKEN}}</td>
+            <td>string</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="has-line-data" data-line-start="663" data-line-end="664">
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+      </p>
+      <h2 class="code-line" data-line-start="665" data-line-end="666">
+        <a id="Endpoint_Update_Review_665"></a>End-point: Update Review
+      </h2>
+      <p class="has-line-data" data-line-start="666" data-line-end="667">
+        Update existing review in database
+      </p>
+      <h3 class="code-line" data-line-start="667" data-line-end="668">
+        <a id="Method_PUT_667"></a>Method: PUT
+      </h3>
+      <blockquote>
+        <pre><code class="has-line-data" data-line-start="669" data-line-end="671">{{URL}}/api/v1/reviews/676f40585a48884b75751558
+</code></pre>
+      </blockquote>
+      <h3 class="code-line" data-line-start="671" data-line-end="672">
+        <a id="Headers_671"></a>Headers
+      </h3>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Content-Type</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Content-Type</td>
+            <td>application/json</td>
+          </tr>
+        </tbody>
+      </table>
+      <h3 class="code-line" data-line-start="678" data-line-end="679">
+        <a id="Body_raw_678"></a>Body (<strong>raw</strong>)
+      </h3>
+      <pre><code class="has-line-data" data-line-start="681" data-line-end="685" class="language-json">{
+    "<span class="hljs-attribute">title</span>": <span class="hljs-value"><span class="hljs-string">"I kissed Santa Claus"</span>
+</span>}
+</code></pre>
+      <h3 class="code-line" data-line-start="686" data-line-end="687">
+        <a id="_Authentication_bearer_686"></a>🔑 Authentication bearer
+      </h3>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Param</th>
+            <th>value</th>
+            <th>Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>token</td>
+            <td>{{TOKEN}}</td>
+            <td>string</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="has-line-data" data-line-start="694" data-line-end="695">
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+      </p>
+      <h2 class="code-line" data-line-start="696" data-line-end="697">
+        <a id="Endpoint_Delete_Review_696"></a>End-point: Delete Review
+      </h2>
+      <p class="has-line-data" data-line-start="697" data-line-end="698">
+        Remove review from database
+      </p>
+      <h3 class="code-line" data-line-start="698" data-line-end="699">
+        <a id="Method_DELETE_698"></a>Method: DELETE
+      </h3>
+      <blockquote>
+        <pre><code class="has-line-data" data-line-start="700" data-line-end="702">{{URL}}/api/v1/reviews/676f40585a48884b75751558
+</code></pre>
+      </blockquote>
+      <h3 class="code-line" data-line-start="702" data-line-end="703">
+        <a id="Body_raw_702"></a>Body (<strong>raw</strong>)
+      </h3>
+      <pre><code class="has-line-data" data-line-start="705" data-line-end="707" class="language-json">
+</code></pre>
+      <h3 class="code-line" data-line-start="708" data-line-end="709">
+        <a id="_Authentication_bearer_708"></a>🔑 Authentication bearer
+      </h3>
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Param</th>
+            <th>value</th>
+            <th>Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>token</td>
+            <td>{{TOKEN}}</td>
+            <td>string</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="has-line-data" data-line-start="716" data-line-end="717">
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+        ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+      </p>
+    </div>
+  </body>
+</html>
